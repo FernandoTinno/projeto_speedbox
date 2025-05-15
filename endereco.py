@@ -1,74 +1,41 @@
 class Endereco:
-    def __init__(self):
-        self.__enderecos_cliente1 = []
-        self.__enderecos_cliente2 = []
-        self.__enderecos_cliente3 = []
+    def __init__(self, logradouro, numero, bairro, cidade, cep):
+        self.logradouro = logradouro
+        self.numero = numero
+        self.bairro = bairro
+        self.cidade = cidade
+        self.cep = cep
 
-    @property
-    def _enderecos_cliente1(self):
-        return self.__enderecos_cliente1
+    def get_logradouro(self):
+        return self.logradouro
 
-    @_enderecos_cliente1.setter
-    def _enderecos_cliente1(self, value):
-        self.__enderecos_cliente1 = value
+    def set_logradouro(self, value):
+        self.logradouro = value
 
-    @property
-    def _enderecos_cliente2(self):
-        return self.__enderecos_cliente2
+    def get_numero(self):
+        return self.numero
 
-    @_enderecos_cliente2.setter
-    def _enderecos_cliente2(self, value):
-        self.__enderecos_cliente2 = value
+    def set_numero(self, value):
+        self.numero = value
 
-    @property
-    def _enderecos_cliente3(self):
-        return self.__enderecos_cliente3
+    def get_bairro(self):
+        return self.bairro
 
-    @_enderecos_cliente3.setter
-    def _enderecos_cliente3(self, value):
-        self.__enderecos_cliente3 = value
-        
+    def set_bairro(self, value):
+        self.bairro = value
 
-    def adicinar_endereco_cliente(self):
-        dict_endereco_cliente1 ={}
-        dict_endereco_cliente2 ={}
-        dict_endereco_cliente3 ={}
-        
-        if len(self.__enderecos_cliente1) == 0:
-            logradouro = input('Digite o locradouro da empresa:')
-            numero = input('Digite o numero do endereço da empresa:')
-            bairro = input('Digite o bairo da empresa:')
-            cidade = input('Digite a cidade da empresa:')
-            cep = input('Digite o CEP da empresa:')
-            dict_endereco_cliente1 = {'logradouro': logradouro,'numero': numero,'bairro': bairro,'cidade': cidade,'CEP': cep}
-            self.__enderecos_cliente1.append(dict_endereco_cliente1)
-            return ('endereço adicionado com sucesso')   
-        
-        
-        elif len(self.__enderecos_cliente2) == 0:
-            logradouro = input('Digite o locradouro da empresa:')
-            numero = input('Digite o numero do endereço da empresa:')
-            bairro = input('Digite o bairo da empresa:')
-            cidade = input('Digite a cidade da empresa:')
-            cep = input('Digite o CEP da empresa:')
-            dict_enderecos_cliente2 = {'logradouro': logradouro,'numero': numero,'bairro': bairro,'cidade': cidade,'CEP': cep}
-            self.__enderecos_cliente2.append(dict_enderecos_cliente2)
-            
-            
-        elif len(self.__enderecos_cliente3) == 0:
-            logradouro = input('Digite o locradouro da empresa:')
-            numero = input('Digite o numero do endereço da empresa:')
-            bairro = input('Digite o bairo da empresa:')
-            cidade = input('Digite a cidade da empresa:')
-            cep = input('Digite o CEP da empresa:')
-            dict_enderecos_cliente3 = {'logradouro': logradouro,'numero': numero,'bairro': bairro,'cidade': cidade,'CEP': cep}
-            self.__enderecos_cliente3.append(dict_enderecos_cliente3)
-        else:
-            print('Voçê chegou ao numero maximo de endereços cadastrados')
-            
+    def get_cidade(self):
+        return self.cidade
+
+    def set_cidade(self, value):
+        self.cidade = value
+
+    def get_cep(self):
+        return self.cep
+
+    def set_cep(self, value):
+        self.cep = value
 
 
-    def mostrar(self):
-        print(self.__enderecos_cliente1)
-        print(self.__enderecos_cliente2)
-
+    def __repr__(self):
+        return f"{self.logradouro}, {self.numero}, {self.bairro}, {self.cidade}, {self.cep}"

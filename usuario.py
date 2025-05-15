@@ -77,13 +77,13 @@ class Administrador:
 
 
 class Cliente(Usuario):
-    def __init__(self, nome,email,senha,cpf,tel,endereco):
+    def __init__(self, nome,email,senha,cpf,tel):
         super().__init__(nome,email,senha)
         self.__cliente_id = uuid4
         self.__data_cadastro = datetime.now()
         self.__cpf = cpf
         self.__telefone = tel
-        self.__endereco = endereco
+        self.__endereco = None
 
 
     @property
@@ -126,13 +126,26 @@ class Cliente(Usuario):
     def _endereco(self, value):
         self.__endereco = value
 
-   
 
-
-    
-    
     def __repr__(self):
         return super().__repr__()
+    
+    
+    def adicionar_endereco(self):
+        print("Vamos cadastrar o seu endereço:")
+        logradouro = input('Digite o logradouro: ')
+        numero = input('Digite o número: ')
+        bairro = input('Digite o bairro: ')
+        cidade = input('Digite a cidade: ')
+        cep = input('Digite o CEP: ')
+        self._endereco = endereco.Endereco(logradouro, numero, bairro, cidade, cep)
+        print("Endereço adicionado com sucesso!")
+
+    def ver_endereco(self):
+        if self._endereco:
+            print("Seu endereço:", self._endereco)
+        else:
+            print("Você ainda não cadastrou um endereço.")
     
 
 class Entregador(Usuario):
@@ -200,20 +213,14 @@ def cadastrar_usuario():
     senha = input('Digite sua senha: ')
     cpf = input('Digite seu CPF: ')
     tel = input('Digite seu telefone: ')
-    
-    
 
     if tipo == 'entregador':
         veiculo = input('Seu veiculo é um carro, moto ou caminhão: ')
-        novo_entregador = Entregador(nome,email,senha,cpf,tel,veiculo)
+        novo_entregador = Entregador(nome, email, senha, cpf, tel, veiculo)
         entregadores.append(novo_entregador)
         print(f"Entregador {nome} cadastrado com sucesso!")
     elif tipo == 'cliente':
-        #endereco = Endereco()
-        #endereco.adicinar_endereco_cliente()
-        novo_cliente = Cliente(nome,email,senha,cpf,tel,endereco = None)
-        novo_cliente._endereco ='teste'
-        print(novo_cliente._endereco)
+        novo_cliente = Cliente(nome, email, senha, cpf, tel)
         usuarios.append(novo_cliente)
         print(f"Cliente {nome} cadastrado com sucesso!")
     else:
@@ -227,12 +234,16 @@ def realizar_login():
     for entregador in entregadores:
         if entregador._email == email_usuario_login and entregador._senha == senha_login:
             print(f"Login bem-sucedido como Entregador, {entregador._nome}!")
-            return True
+            menu.opt_entregador() # Chama o menu do entregador (a implementar)
+            return True # Podemos retornar True aqui também se o menu do entregador tiver um loop interno
 
     for cliente in usuarios:
         if cliente._email == email_usuario_login and cliente._senha == senha_login:
             print(f"Login bem-sucedido como Cliente, {cliente._nome}!")
-            return menu.opt_cliente()
+            if menu.opt_cliente(cliente): # Verifica se opt_cliente retornou True (o que significa que o cliente saiu)
+                return True # Retorna True para o main.py sair do loop interno do login
+            else:
+                return False # Ou outra lógica se o menu do cliente não retornar True ao sair
 
     print("Falha no login. Usuário ou senha incorretos.")
     return None
@@ -241,5 +252,3 @@ def realizar_login():
 
 
 
-#import empresa
-#print(f'{empresa.speedbox._cidade}')
