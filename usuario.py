@@ -3,6 +3,7 @@ from datetime import datetime
 from abc import ABC
 import endereco
 import menu
+import produto
 
 usuarios = []
 entregadores = []
@@ -84,6 +85,7 @@ class Cliente(Usuario):
         self.__cpf = cpf
         self.__telefone = tel
         self.__endereco = None
+        self.__carrinho = []
 
 
     @property
@@ -125,6 +127,14 @@ class Cliente(Usuario):
     @_endereco.setter
     def _endereco(self, value):
         self.__endereco = value
+        
+    @property
+    def _carrinho(self):
+        return self.__carrinho
+
+    @_carrinho.setter
+    def _carrinho(self, value):
+        self.__carrinho = value    
 
 
     def __repr__(self):
@@ -146,7 +156,30 @@ class Cliente(Usuario):
             print("Seu endereço:", self._endereco)
         else:
             print("Você ainda não cadastrou um endereço.")
-    
+            
+    def escolher_produto(self):
+        item = input(f'Gostaria de adicionar qual desses produtos ao Carrinho de compras?\n1 - {produto.notebook_1._nome} = {produto.notebook_1._preco}R$\n2 - {produto.micro_ondas._nome} = {produto.micro_ondas._preco}R$\n3 - {produto.cama._nome} = {produto.cama._preco}R$\n')
+        
+        if item == '1':
+            self._carrinho.append(produto.notebook_1)
+            print(f'o produto {produto.notebook_1._nome} foi adicionado ao carrinho')
+        elif item == '2':
+            self._carrinho.append(produto.micro_ondas)
+            print(f'o produto {produto.micro_ondas._nome} foi adicionado ao carrinho')
+        elif item == '3':
+            self._carrinho.append(produto.cama)
+            print(f'o produto {produto.cama._nome} foi adicionado ao carrinho')
+        else:
+            print('Você não selecionou nenhum produto.')
+            
+    def ver_carrinho(self):
+        if self._carrinho:
+            print(f'Aqui está seu carrinho de compras: {self._carrinho}')
+        else:
+            print("Você ainda não cadastrou um endereço.")
+            
+        
+        
 
 class Entregador(Usuario):
     def __init__(self, nome,email,senha,cpf,tel,veiculo):
@@ -234,16 +267,16 @@ def realizar_login():
     for entregador in entregadores:
         if entregador._email == email_usuario_login and entregador._senha == senha_login:
             print(f"Login bem-sucedido como Entregador, {entregador._nome}!")
-            menu.opt_entregador() # Chama o menu do entregador (a implementar)
-            return True # Podemos retornar True aqui também se o menu do entregador tiver um loop interno
+            menu.opt_entregador(entregador) 
+            return True
 
     for cliente in usuarios:
         if cliente._email == email_usuario_login and cliente._senha == senha_login:
             print(f"Login bem-sucedido como Cliente, {cliente._nome}!")
-            if menu.opt_cliente(cliente): # Verifica se opt_cliente retornou True (o que significa que o cliente saiu)
-                return True # Retorna True para o main.py sair do loop interno do login
+            if menu.opt_cliente(cliente): 
+                return True 
             else:
-                return False # Ou outra lógica se o menu do cliente não retornar True ao sair
+                return False 
 
     print("Falha no login. Usuário ou senha incorretos.")
     return None

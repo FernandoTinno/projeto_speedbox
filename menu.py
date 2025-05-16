@@ -1,16 +1,24 @@
 import main
 
-def opt_cliente(cliente_logado): # Recebe o objeto cliente logado como argumento
+def opt_cliente(cliente_logado): 
     while True:
-        opcao = input(f"\nOpções do Cliente ({cliente_logado._nome}):\n1 - Adicionar Endereço\n2 - Ver Endereço\n3 - Outra Funcionalidade (a implementar)\n4 - Sair\n")
+        opcao = input(f"\nOpções do Cliente ({cliente_logado._nome}):\n1 - Adicionar Endereço\n2 - Ver Endereço\n3 - Adicionar produtos ao carrinho\n4 - Sair\n")
 
         if opcao == '1':
-            cliente_logado.adicionar_endereco()
+            cliente_logado.adicionar_endereco()#adicionar end
         elif opcao == '2':
-            cliente_logado.ver_endereco()
+            cliente_logado.ver_endereco() #remover end
         elif opcao == '3':
-            print("Outra funcionalidade será implementada aqui.")
+            cliente_logado.escolher_produto()#ver end
         elif opcao == '4':
+            cliente_logado.escolher_produto()#adicionar prod
+        elif opcao == '5':
+            cliente_logado.escolher_produto()#remover prod
+        elif opcao == '6':
+            cliente_logado.escolher_produto()#ver prod
+        elif opcao == '7':
+            cliente_logado.escolher_produto()#finalizar compra
+        elif opcao == '8':
             print("Saindo do menu do cliente.")
             return True
         else:

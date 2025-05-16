@@ -3,7 +3,7 @@ class Produto:
         self.__nome = nome
         self.__marca = marca
         self.__quantidade_estoque = quantidade_estoque
-        self.__ =preco = preco
+        self.__preco = preco
 
     @property
     def _nome(self):
@@ -30,13 +30,15 @@ class Produto:
         self.__quantidade_estoque = value
 
     @property
-    def _(self):
-        return self.__
+    def _preco(self):
+        return self.__preco
 
-    @_.setter
-    def _(self, value):
-        self.__ = value
+    @_preco.setter
+    def _preco(self, value):
+        self.__preco = value
 
+
+    
     
     
         
@@ -45,7 +47,7 @@ class Produto:
 
 
 notebook_1 = Produto('aspire ultimate','acer',25,2799.99)
-notebook_2 = Produto('future vision','positivo',1,3000.00)
 micro_ondas = Produto('hot wave','eletrolux',16,350.00)
 cama = Produto('cochão king','gazin',3,1749.99)
+
         
