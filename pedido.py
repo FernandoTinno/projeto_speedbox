@@ -12,6 +12,7 @@ class Pedido:
         self.__valor_total = 0.0
         self.__status = "pendente"
         self.__metodo_de_entrega = None
+        self.__metodo_de_pagamento = None
 
     @property
     def _pedido_id(self):
@@ -69,6 +70,16 @@ class Pedido:
     def _metodo_de_entrega(self, value):
         self.__metodo_de_entrega = value
 
+    @property
+    def _metodo_de_pagamento(self):
+        return self.__metodo_de_pagamento
+
+    @_metodo_de_pagamento.setter
+    def _metodo_de_pagamento(self, value):
+        self.__metodo_de_pagamento = value
+
+
+    
 
     
 
@@ -101,27 +112,51 @@ class Pedido:
                     itens_para_remover.append(item)
 
         maior_peso = 0
+        
         for item in self._cliente._carrinho:
             if item._peso > maior_peso:
                 maior_peso = item._peso
+        
         if maior_peso < 10:
-            metodo_de_entrega = 'Moto'
-        elif maior_peso >= 10 and maior_peso <= 20:
-            metodo_de_entrega = 'Carro'
+            metodo_de_entrega = "Moto"
+            frete = 15.0
+        elif maior_peso >=10 and maior_peso <=20:
+            metodo_de_entrega = "Carro"
+            frete = 30.0
         else:
-            metodo_de_entrega = 'Caminhão'
+            metodo_de_entrega = "Caminhão"
+            frete = 50.0
             
         self._metodo_de_entrega = metodo_de_entrega
-        print(f'devido o item mais pesado do seu carrinho de compras ser {maior_peso}KG.\nO veiculo sera: {self._metodo_de_entrega}')
+        print(f'\ndevido o item mais pesado do seu carrinho de compras ser {maior_peso}KG.\nO veiculo sera: {self._metodo_de_entrega}')
         for item in itens_para_remover:
             self._cliente._carrinho.remove(item)
 
-        self.__valor_total = valor_total_pedido
+        self.__valor_total = valor_total_pedido + frete
         self.__status = "concluído"
-        print(f"\nValor total do pedido: R$ {self._valor_total:.2f}")
+        
+        print(f'frete: {frete}R$')
+        print(f"\nValor total do pedido: R$ {self._valor_total}")
+        while True:
+            mtd_pagamento = input('Qual metodo de pagamento você deseja:\n1 - Pix\n2 - Boleto\n3 - Crédito\n4 - Débito:\n')
+            if mtd_pagamento == '1':
+                self._metodo_de_pagamento = mtd_pagamento
+                break
+            elif mtd_pagamento == '2':
+                self._metodo_de_pagamento = mtd_pagamento
+                break
+            elif mtd_pagamento == '3':
+                self._metodo_de_pagamento = mtd_pagamento
+                break
+            elif mtd_pagamento == '4':
+                self._metodo_de_pagamento = mtd_pagamento
+                break
+            else:   
+                print('A opção para forma de pagamento invalida!') 
+                
         print("Compra finalizada com sucesso!")
         return True
 
     def __repr__(self):
-        return f"Pedido ID: {self._pedido_id}, Cliente: {self._cliente._nome}, Valor Total: R$ {self._valor_total:.2f}, Status: {self._status}"
+        return f"Pedido ID: {self._pedido_id}, Cliente: {self._cliente._nome}, Valor Total: R$ {self._valor_total}, Metodo de Pagamento: {self._metodo_de_pagamento} Status: {self._status}"
             
