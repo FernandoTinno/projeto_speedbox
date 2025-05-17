@@ -1,9 +1,11 @@
 class Produto:
-    def __init__(self,nome,marca,quantidade_estoque:int,preco:float):
+    def __init__(self,nome,marca,quantidade_estoque:int,preco:float,peso:float):
         self.__nome = nome
         self.__marca = marca
         self.__quantidade_estoque = quantidade_estoque
         self.__preco = preco
+        self.__peso = peso
+        
 
     @property
     def _nome(self):
@@ -37,7 +39,19 @@ class Produto:
     def _preco(self, value):
         self.__preco = value
 
+    @property
+    def _peso(self):
+        return self.__peso
 
+    @_peso.setter
+    def _peso(self, value):
+        self.__peso = value
+
+
+    
+    def __repr__(self):
+        return f"{self._nome}"
+    
     
     
     
@@ -46,8 +60,8 @@ class Produto:
     
 
 
-notebook_1 = Produto('aspire ultimate','acer',25,2799.99)
-micro_ondas = Produto('hot wave','eletrolux',16,350.00)
-cama = Produto('cochão king','gazin',3,1749.99)
+notebook_1 = Produto('aspire ultimate','acer',25,2799.99,1.5)
+micro_ondas = Produto('hot wave','eletrolux',16,350.00,10)
+cama = Produto('cochão king','gazin',3,1749.99,30)
 
         
