@@ -143,7 +143,7 @@ class Pedido:
             sortear_entregador = random.choice(entregadores_disponíveis)
             self._entregador_escolhido = sortear_entregador
             sortear_entregador._pedidos_entregues.append(self)#puxa todo o pedido para dentro do pedidos entregues
-            print(f'o entregador que foi escolhido para realizar a entrega foi: {self._entregador_escolhido._nome}')
+            print(f'o entregador que ira realizar a entrega é: {self._entregador_escolhido._nome}')
         
         
         
