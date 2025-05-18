@@ -1,4 +1,4 @@
-import main
+
 import pedido
 
 def opt_cliente(cliente_logado): 
@@ -23,7 +23,7 @@ def opt_cliente(cliente_logado):
                 
         elif opcao == '8':
             print("Saindo do menu do cliente.")
-            return True
+            return False
         else:
             print("Opção inválida. Tente novamente.")
     
@@ -32,9 +32,19 @@ def opt_cliente(cliente_logado):
     
 
 
-def opt_entregador():
-    print('deu certo')
+def opt_entregador(entregador_logado):
+    while True:
+        opcao = input(f"\nOpções do Entregador ({entregador_logado._nome}):\n1 - Ver Histórico de Pedidos\n2 - Sair\n")
+
+        if opcao == '1':
+            entregador_logado.historico_entregas()
+        elif opcao == '2':
+            print("Saindo do menu do entregador.")
+            return False
+        else:
+            print("Opção inválida. Tente novamente.")
 
 
-def opt_administrador():
-    print('deu certo')        
+def opt_administrador(adm_logado):
+    pass #mais para frente, pretendo colocar opcoes para o administrador, como por exemplo, adicionar ou remover produtos e afins
+       

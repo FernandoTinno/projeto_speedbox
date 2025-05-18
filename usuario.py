@@ -1,13 +1,11 @@
 from uuid import uuid4
 from datetime import datetime
-from abc import ABC
 import endereco
 import menu
 import produto
 
 usuarios = []
 entregadores = []
-
 
 
 class Usuario:
@@ -41,13 +39,6 @@ class Usuario:
     def _senha(self, value):
         self.__senha = value
 
-
-    
-        
-
-
-  
-        
     
     
     def __repr__(self):
@@ -216,7 +207,8 @@ class Cliente(Usuario):
                     carrinho_novo.append(item) 
 
             self._carrinho = carrinho_novo  
-        
+        else:
+            print('Você ainda não adicionou um produto ao carrinho')
             
     def ver_carrinho(self):
         if self._carrinho:
@@ -225,8 +217,6 @@ class Cliente(Usuario):
             print("Você ainda não adicionou nenhum produto ao carrinho.")
             
         
-        
-
 class Entregador(Usuario):
     def __init__(self, nome,email,senha,cpf,tel,veiculo):
         super().__init__(nome,email,senha)
@@ -235,6 +225,7 @@ class Entregador(Usuario):
         self.__cpf = cpf
         self.__telefone = tel
         self.__veiculo = veiculo
+        self.__pedidos_entregues = []
 
     @property
     def _entregador_id(self):
@@ -276,13 +267,36 @@ class Entregador(Usuario):
     def _veiculo(self, value):
         self.__veiculo = value
 
+    @property
+    def _pedidos_entregues(self):
+        return self.__pedidos_entregues
 
+    @_pedidos_entregues.setter
+    def _pedidos_entregues(self, value):
+        self.__pedidos_entregues = value
     
+    def __str__(self):
+        return super().__str__()
     
     def __repr__(self):
         return super().__repr__()
-
-
+    
+    def historico_entregas(self):
+        if self._pedidos_entregues:
+                print("\nSeu Histórico de Pedidos:")
+                for pedido_entregue in self._pedidos_entregues:
+                    print(pedido_entregue)
+        else:
+            print("Você ainda não entregou nenhum pedido.")
+            return False
+    
+def inicializar_entregadores_padrao():
+    carlos = Entregador('Carlos Henrique','carlos_moto@gmail.com','carlos_moto123','18467529341','18997485236','moto')
+    larissa = Entregador('Larissa Carvalho','larissa_carro@gmail.com','larissa_carro123','48527945613','18981479350','carro')
+    jair = Entregador('Jair Silva','jair_caminhao@gmail.com','jair_caminhao123','46751003289','18957984001','caminhão')
+    entregadores.append(carlos)
+    entregadores.append(larissa)
+    entregadores.append(jair)    
 
 
 def cadastrar_usuario():
@@ -294,7 +308,7 @@ def cadastrar_usuario():
     tel = input('Digite seu telefone: ')
 
     if tipo == 'entregador':
-        veiculo = input('Seu veiculo é um carro, moto ou caminhão: ')
+        veiculo = input('Seu veiculo é um carro, moto ou caminhão: ').lower()
         novo_entregador = Entregador(nome, email, senha, cpf, tel, veiculo)
         entregadores.append(novo_entregador)
         print(f"Entregador {nome} cadastrado com sucesso!")
@@ -307,14 +321,18 @@ def cadastrar_usuario():
 
 
 def realizar_login():
+    
+
     email_usuario_login = input("Digite seu email de usuário: ")
     senha_login = input("Digite sua senha: ")
 
     for entregador in entregadores:
         if entregador._email == email_usuario_login and entregador._senha == senha_login:
             print(f"Login bem-sucedido como Entregador, {entregador._nome}!")
-            menu.opt_entregador(entregador) 
-            return True
+            if menu.opt_entregador(entregador): 
+                return True 
+            else:
+                return False
 
     for cliente in usuarios:
         if cliente._email == email_usuario_login and cliente._senha == senha_login:

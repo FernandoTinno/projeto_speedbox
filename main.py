@@ -1,15 +1,12 @@
-from uuid import uuid4
-from datetime import datetime
-from abc import ABC
 import usuario
-import menu
-import endereco
+
     
 
 
 
 
 if __name__ == "__main__":
+    usuario.inicializar_entregadores_padrao()
     while True:
         opcao = input("\nEscolha uma opção:\n1 - Cadastrar Usuário\n2 - Realizar Login\n3 - Sair\n")
 

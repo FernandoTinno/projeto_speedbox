@@ -1,7 +1,7 @@
 from uuid import uuid4
 from datetime import datetime
-from abc import ABC
-import produto
+import usuario
+import random
 
 class Pedido:
     def __init__(self, cliente):
@@ -12,6 +12,7 @@ class Pedido:
         self.__valor_total = 0.0
         self.__status = "pendente"
         self.__metodo_de_entrega = None
+        self.__entregador_escolhido = None
         self.__metodo_de_pagamento = None
 
     @property
@@ -71,18 +72,20 @@ class Pedido:
         self.__metodo_de_entrega = value
 
     @property
+    def _entregador_escolhido(self):
+        return self.__entregador_escolhido
+
+    @_entregador_escolhido.setter
+    def _entregador_escolhido(self, value):
+        self.__entregador_escolhido = value
+
+    @property
     def _metodo_de_pagamento(self):
         return self.__metodo_de_pagamento
 
     @_metodo_de_pagamento.setter
     def _metodo_de_pagamento(self, value):
         self.__metodo_de_pagamento = value
-
-
-    
-
-    
-
         
         
     def finalizar_compra(self):
@@ -112,23 +115,42 @@ class Pedido:
                     itens_para_remover.append(item)
 
         maior_peso = 0
-        
         for item in self._cliente._carrinho:
             if item._peso > maior_peso:
                 maior_peso = item._peso
         
         if maior_peso < 10:
-            metodo_de_entrega = "Moto"
+            metodo_de_entrega = "moto"
             frete = 15.0
         elif maior_peso >=10 and maior_peso <=20:
-            metodo_de_entrega = "Carro"
+            metodo_de_entrega = "carro"
             frete = 30.0
         else:
-            metodo_de_entrega = "Caminhão"
+            metodo_de_entrega = "caminhão"
             frete = 50.0
             
         self._metodo_de_entrega = metodo_de_entrega
         print(f'\ndevido o item mais pesado do seu carrinho de compras ser {maior_peso}KG.\nO veiculo sera: {self._metodo_de_entrega}')
+        
+        
+        entregadores_disponíveis = []
+        for entregador in usuario.entregadores:
+            if entregador._veiculo == self._metodo_de_entrega:
+                entregadores_disponíveis.append(entregador)
+        
+        
+        if entregadores_disponíveis:
+            sortear_entregador = random.choice(entregadores_disponíveis)
+            self._entregador_escolhido = sortear_entregador
+            sortear_entregador._pedidos_entregues.append(self)#puxa todo o pedido para dentro do pedidos entregues
+            print(f'o entregador que foi escolhido para realizar a entrega foi: {self._entregador_escolhido._nome}')
+        
+        
+        
+        
+        
+        
+        
         for item in itens_para_remover:
             self._cliente._carrinho.remove(item)
 
@@ -158,5 +180,5 @@ class Pedido:
         return True
 
     def __repr__(self):
-        return f"Pedido ID: {self._pedido_id}, Cliente: {self._cliente._nome}, Valor Total: R$ {self._valor_total}, Metodo de Pagamento: {self._metodo_de_pagamento} Status: {self._status}"
+        return f"Pedido ID: {self._pedido_id}, Cliente: {self._cliente._nome}, Endereço de Entrega: {self._cliente._endereco}, Valor Total: R$ {self._valor_total}, Metodo de Pagamento: {self._metodo_de_pagamento} Status: {self._status}"
             
