@@ -144,15 +144,35 @@ class Cliente(Usuario):
     
     
     def adicionar_endereco(self):
-        print("Vamos cadastrar o seu endereço:")
-        logradouro = input('Digite o logradouro: ')
-        numero = input('Digite o número: ')
-        bairro = input('Digite o bairro: ')
-        cidade = input('Digite a cidade: ')
-        cep = input('Digite o CEP: ')
-        self._endereco = endereco.Endereco(logradouro, numero, bairro, cidade, cep)
-        print("Endereço adicionado com sucesso!")
+        if not self._endereco:
+            
+            print("Vamos cadastrar o seu endereço:")
+            logradouro = input('Digite o logradouro: ')
+            numero = input('Digite o número: ')
+            bairro = input('Digite o bairro: ')
+            cidade = input('Digite a cidade: ')
+            cep = input('Digite o CEP: ')
+            self._endereco = endereco.Endereco(logradouro, numero, bairro, cidade, cep)
+            print("Endereço adicionado com sucesso!")
+        else:
+            print('Você já tem um endereço cadastrado')
 
+    def remover_endereco(self):
+        if self._endereco:
+            confirmar = input('Você tem certeza que deseja remover o endereço(digite 1 para sim e 2 para não): ')
+            while True:
+                if confirmar == '1':
+                    self._endereco = None
+                    break
+                elif confirmar == '2':
+                    print('Remoção de endereço cancelada')
+                    break
+                else:
+                    print('a opção que você digitou está incorreta')
+                    confirmar = input('Você tem certeza que deseja remover o endereço(digite 1 para sim e 2 para não): ')
+        else:
+            print('Você não possui nenhum endereço')         
+               
     def ver_endereco(self):
         if self._endereco:
             print("Seu endereço:", self._endereco)
@@ -174,11 +194,35 @@ class Cliente(Usuario):
         else:
             print('Você não selecionou nenhum produto.')
             
+    def remover_produto(self):
+        
+        
+        
+        if self._carrinho:
+            carrinho_novo = []
+            itens_removidos = [] 
+
+            for item in self._carrinho:
+                print(item._nome)
+                remover_item = input('Você gostaria de remover esse item?(digite 1 para sim e 2 para não): ')
+                if remover_item == '1':
+                    itens_removidos.append(item._nome)
+                    
+                elif remover_item == '2':
+                    print(f'tudo bem, esse item será mantido no seu carrinho')
+                    carrinho_novo.append(item)
+                else:
+                    print('A opção que você selecionou está incorreta')
+                    carrinho_novo.append(item) 
+
+            self._carrinho = carrinho_novo  
+        
+            
     def ver_carrinho(self):
         if self._carrinho:
             print(f'Aqui está seu carrinho de compras: {self._carrinho}')
         else:
-            print("Você ainda não cadastrou um endereço.")
+            print("Você ainda não adicionou nenhum produto ao carrinho.")
             
         
         
