@@ -212,5 +212,5 @@ class Pedido:
         return True
 
     def __repr__(self):
-        return f"Pedido ID: {self._pedido_id}, Cliente: {self._cliente._nome}, Endereço de Entrega: {self._cliente._endereco}, Tempo de Espera: {self._tempo_entrega} Valor Total: R$ {self._valor_total}, Metodo de Pagamento: {self._metodo_de_pagamento} Status: {self._status}"
+        return f"Pedido ID: {self._pedido_id},Data da pedido: {self._data_pedido} Cliente: {self._cliente._nome}, Endereço de Entrega: {self._cliente._endereco}, Tempo de Espera: {self._tempo_entrega}, Valor Total: R$ {self._valor_total}, Metodo de Pagamento: {self._metodo_de_pagamento}, Status: {self._status}"
             
