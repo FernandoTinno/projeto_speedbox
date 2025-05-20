@@ -380,7 +380,7 @@ def realizar_login():
 
     for cliente in usuarios:
         if cliente._email == email_usuario_login and cliente._senha == senha_login:
-            print(f"Login bem-sucedido como Cliente, {cliente._nome}!")
+            print(f"Login efetuado!, {cliente._nome}!")
             if menu.opt_cliente(cliente): 
                 return True 
             else:
