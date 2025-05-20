@@ -1,7 +1,6 @@
-
 class Empresa:
     
-    def __init__(self,nome,cnpj,telefone,logradouro,numero,bairo,cidade,cep):
+    def __init__(self,nome,cnpj,telefone,logradouro,numero,bairo,cidade,estado):
         self.__nome = nome
         self.__cnpj = cnpj
         self.__telefone = telefone
@@ -9,7 +8,7 @@ class Empresa:
         self.__numero = numero
         self.__bairo = bairo
         self.__cidade = cidade
-        self.__cep = cep
+        self.__estado = estado
 
     @property
     def _nome(self):
@@ -68,17 +67,12 @@ class Empresa:
         self.__cidade = value
 
     @property
-    def _cep(self):
-        return self.__cep
+    def _estado(self):
+        return self.__estado
 
-    @_cep.setter
-    def _cep(self, value):
-        self.__cep = value
-
-
-    
-        
-
-speedbox = Empresa('Speedbox','12.345.678/9012-34','(18)997679126','Avenida brasil','33','zona sul','Ilha solteira','15385140')
+    @_estado.setter
+    def _estado(self, value):
+        self.__estado = value
 
 
+speedbox = Empresa('Speedbox','12.345.678/9012-34','(18)997679126','Avenida brasil','33','zona sul','Ilha solteira','SP')

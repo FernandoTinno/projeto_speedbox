@@ -3,6 +3,7 @@ from datetime import datetime
 import endereco
 import menu
 import produto
+import pedido
 
 usuarios = []
 entregadores = []
@@ -142,15 +143,21 @@ class Cliente(Usuario):
             numero = input('Digite o número: ')
             bairro = input('Digite o bairro: ')
             cidade = input('Digite a cidade: ')
-            cep = input('Digite o CEP: ')
-            self._endereco = endereco.Endereco(logradouro, numero, bairro, cidade, cep)
+            
+            while True:
+                estado = input('Digite a sigla do seu estado (Ex: SP): ').upper()
+                if estado in pedido.TEMPOS_DE_ENTREGA: 
+                    break
+                else:
+                    print("Sigla de estado inválida. Por favor, digite uma sigla válida (Ex: SP, RJ, MG).")
+            self._endereco = endereco.Endereco(logradouro, numero, bairro, cidade, estado)
             print("Endereço adicionado com sucesso!")
         else:
             print('Você já tem um endereço cadastrado')
 
     def remover_endereco(self):
         if self._endereco:
-            confirmar = input('Você tem certeza que deseja remover o endereço(digite 1 para sim e 2 para não): ')
+            confirmar = input('Você tem certeza que deseja remover o endereço (digite 1 para sim e 2 para não): ')
             while True:
                 if confirmar == '1':
                     self._endereco = None
@@ -159,8 +166,8 @@ class Cliente(Usuario):
                     print('Remoção de endereço cancelada')
                     break
                 else:
-                    print('a opção que você digitou está incorreta')
-                    confirmar = input('Você tem certeza que deseja remover o endereço(digite 1 para sim e 2 para não): ')
+                    print('A opção que você digitou está incorreta')
+                    confirmar = input('Você tem certeza que deseja remover o endereço (digite 1 para sim e 2 para não): ')
         else:
             print('Você não possui nenhum endereço')         
                
@@ -175,13 +182,16 @@ class Cliente(Usuario):
         
         if item == '1':
             self._carrinho.append(produto.notebook_1)
-            print(f'o produto {produto.notebook_1._nome} foi adicionado ao carrinho')
+            print(f'O produto {produto.notebook_1._nome} foi adicionado ao carrinho')
         elif item == '2':
             self._carrinho.append(produto.micro_ondas)
-            print(f'o produto {produto.micro_ondas._nome} foi adicionado ao carrinho')
+            print(f'O produto {produto.micro_ondas._nome} foi adicionado ao carrinho')
         elif item == '3':
-            self._carrinho.append(produto.cama)
-            print(f'o produto {produto.cama._nome} foi adicionado ao carrinho')
+            if produto.cama._quantidade_estoque == 0:
+                print('Desculpe! Produto fora de estoque')
+            else:
+                self._carrinho.append(produto.cama)
+                print(f'O produto {produto.cama._nome} foi adicionado ao carrinho')
         else:
             print('Você não selecionou nenhum produto.')
             
@@ -200,7 +210,7 @@ class Cliente(Usuario):
                     itens_removidos.append(item._nome)
                     
                 elif remover_item == '2':
-                    print(f'tudo bem, esse item será mantido no seu carrinho')
+                    print(f'Tudo bem, esse item será mantido no seu carrinho')
                     carrinho_novo.append(item)
                 else:
                     print('A opção que você selecionou está incorreta')
@@ -225,6 +235,7 @@ class Entregador(Usuario):
         self.__cpf = cpf
         self.__telefone = tel
         self.__veiculo = veiculo
+        self.__pedidos_pendentes = []
         self.__pedidos_entregues = []
 
     @property
@@ -268,18 +279,51 @@ class Entregador(Usuario):
         self.__veiculo = value
 
     @property
+    def _pedidos_pendentes(self):
+        return self.__pedidos_pendentes
+
+    @_pedidos_pendentes.setter
+    def _pedidos_pendentes(self, value):
+        self.__pedidos_pendentes = value
+
+    @property
     def _pedidos_entregues(self):
         return self.__pedidos_entregues
 
     @_pedidos_entregues.setter
     def _pedidos_entregues(self, value):
         self.__pedidos_entregues = value
+
+
+    
     
     def __str__(self):
         return super().__str__()
     
     def __repr__(self):
         return super().__repr__()
+    
+    
+    def concluir_pedido(self):
+        if self._pedidos_pendentes: 
+            for pedido_a_confirmar in self._pedidos_pendentes:
+                print(f'{pedido_a_confirmar._pedido_id}, {pedido_a_confirmar._cliente._nome}')
+                while True:
+                    confirmar = input('o pedido desse usuario, foi concluido?(digite 1 para sim e 2 para não): ')
+                    if confirmar == '1':
+                        pedido_a_confirmar._status = 'concluido'
+                        self._pedidos_entregues.append(pedido_a_confirmar)
+                        self._pedidos_pendentes.remove(pedido_a_confirmar)
+                        break
+                        
+                    elif confirmar == '2':
+                        print(f'Tudo bem, quando for concluido, não esqueça de atualizar o Status')
+                        break
+                    else:
+                        print('opção que voê selecionou está incorreta')
+    
+        else:
+            print('Você não tem nenhum pedido para concluir')
     
     def historico_entregas(self):
         if self._pedidos_entregues:
@@ -344,8 +388,3 @@ def realizar_login():
 
     print("Falha no login. Usuário ou senha incorretos.")
     return None
-
-
-
-
-

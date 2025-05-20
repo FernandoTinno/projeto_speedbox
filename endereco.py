@@ -1,10 +1,10 @@
 class Endereco:
-    def __init__(self, logradouro, numero, bairro, cidade, cep):
+    def __init__(self, logradouro, numero, bairro, cidade, estado):
         self.logradouro = logradouro
         self.numero = numero
         self.bairro = bairro
         self.cidade = cidade
-        self.cep = cep
+        self.estado = estado
 
     def get_logradouro(self):
         return self.logradouro
@@ -30,12 +30,12 @@ class Endereco:
     def set_cidade(self, value):
         self.cidade = value
 
-    def get_cep(self):
-        return self.cep
+    def get_estado(self):
+        return self.estado
 
-    def set_cep(self, value):
-        self.cep = value
+    def set_estado(self, value):
+        self.estado = value
 
 
     def __repr__(self):
-        return f"{self.logradouro}, {self.numero}, {self.bairro}, {self.cidade}, {self.cep}"
+        return f"{self.logradouro}, {self.numero}, {self.bairro}, {self.cidade}, {self.estado}"

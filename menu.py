@@ -34,11 +34,15 @@ def opt_cliente(cliente_logado):
 
 def opt_entregador(entregador_logado):
     while True:
-        opcao = input(f"\nOpções do Entregador ({entregador_logado._nome}):\n1 - Ver Histórico de Pedidos\n2 - Sair\n")
+        opcao = input(f"\nOpções do Entregador ({entregador_logado._nome}):\n1 - Concluir pedidos\n2 - Ver Histórico de Pedidos\n3 - sair")
 
         if opcao == '1':
+            entregador_logado.concluir_pedido()
+            
+        elif opcao == '2': 
             entregador_logado.historico_entregas()
-        elif opcao == '2':
+        
+        elif opcao == '3': 
             print("Saindo do menu do entregador.")
             return False
         else:

@@ -2,6 +2,15 @@ from uuid import uuid4
 from datetime import datetime
 import usuario
 import random
+import empresa
+
+
+TEMPOS_DE_ENTREGA = {
+    'AC': 10, 'AL': 7, 'AP': 12, 'AM': 15, 'BA': 6, 'CE': 7, 'DF': 5,
+    'ES': 4, 'GO': 4, 'MA': 9, 'MT': 5, 'MS': 5, 'MG': 3, 'PA': 10,
+    'PB': 8, 'PR': 3, 'PE': 7, 'PI': 9, 'RJ': 2, 'RN': 8, 'RS': 4,
+    'RO': 12, 'RR': 14, 'SC': 3, 'SP': 1, 'SE': 6, 'TO': 6
+}
 
 class Pedido:
     def __init__(self, cliente):
@@ -14,6 +23,7 @@ class Pedido:
         self.__metodo_de_entrega = None
         self.__entregador_escolhido = None
         self.__metodo_de_pagamento = None
+        self.__tempo_entrega = None
 
     @property
     def _pedido_id(self):
@@ -86,6 +96,18 @@ class Pedido:
     @_metodo_de_pagamento.setter
     def _metodo_de_pagamento(self, value):
         self.__metodo_de_pagamento = value
+
+    @property
+    def _tempo_entrega(self):
+        return self.__tempo_entrega
+
+    @_tempo_entrega.setter
+    def _tempo_entrega(self, value):
+        self.__tempo_entrega = value
+
+        
+        
+
         
         
     def finalizar_compra(self):
@@ -113,6 +135,7 @@ class Pedido:
                 
                 for _ in range(quantidade):
                     itens_para_remover.append(item)
+                    
 
         maior_peso = 0
         for item in self._cliente._carrinho:
@@ -142,43 +165,52 @@ class Pedido:
         if entregadores_disponíveis:
             sortear_entregador = random.choice(entregadores_disponíveis)
             self._entregador_escolhido = sortear_entregador
-            sortear_entregador._pedidos_entregues.append(self)#puxa todo o pedido para dentro do pedidos entregues
+            sortear_entregador._pedidos_pendentes.append(self)
             print(f'o entregador que foi escolhido para realizar a entrega foi: {self._entregador_escolhido._nome}')
-        
-        
-        
-        
-        
         
         
         for item in itens_para_remover:
             self._cliente._carrinho.remove(item)
 
         self.__valor_total = valor_total_pedido + frete
-        self.__status = "concluído"
+        #self.__status = "concluído"
         
         print(f'frete: {frete}R$')
+        
+        estado_cliente = self._cliente._endereco.estado
+        estado_empresa = empresa.speedbox._estado.upper()
+        
+        if estado_cliente == estado_empresa:
+            self._tempo_entrega = TEMPOS_DE_ENTREGA['SP']
+            print(f"O tempo de entrega estimado para o seu estado é de {self._tempo_entrega} dia(s).")
+        elif estado_cliente in TEMPOS_DE_ENTREGA:
+            self._tempo_entrega = TEMPOS_DE_ENTREGA[estado_cliente]
+            print(f"O tempo de entrega estimado para o seu estado é de {self._tempo_entrega} dia(s).")
+        else:
+            self._tempo_entrega = 7
+            print(f"Não foi possível estimar o tempo de entrega para o seu estado. O tempo estimado é de {self._tempo_entrega} dia(s).")
+        
         print(f"\nValor total do pedido: R$ {self._valor_total}")
         while True:
             mtd_pagamento = input('Qual metodo de pagamento você deseja:\n1 - Pix\n2 - Boleto\n3 - Crédito\n4 - Débito:\n')
             if mtd_pagamento == '1':
-                self._metodo_de_pagamento = mtd_pagamento
+                self._metodo_de_pagamento = 'Pix'
                 break
             elif mtd_pagamento == '2':
-                self._metodo_de_pagamento = mtd_pagamento
+                self._metodo_de_pagamento = 'Boleto'
                 break
             elif mtd_pagamento == '3':
-                self._metodo_de_pagamento = mtd_pagamento
+                self._metodo_de_pagamento = 'Crédito'
                 break
             elif mtd_pagamento == '4':
-                self._metodo_de_pagamento = mtd_pagamento
+                self._metodo_de_pagamento = 'Débito'
                 break
             else:   
                 print('A opção para forma de pagamento invalida!') 
-                
+        item._quantidade_estoque -= quantidade
         print("Compra finalizada com sucesso!")
         return True
 
     def __repr__(self):
-        return f"Pedido ID: {self._pedido_id}, Cliente: {self._cliente._nome}, Endereço de Entrega: {self._cliente._endereco}, Valor Total: R$ {self._valor_total}, Metodo de Pagamento: {self._metodo_de_pagamento} Status: {self._status}"
+        return f"Pedido ID: {self._pedido_id}, Cliente: {self._cliente._nome}, Endereço de Entrega: {self._cliente._endereco}, Tempo de Espera: {self._tempo_entrega} Valor Total: R$ {self._valor_total}, Metodo de Pagamento: {self._metodo_de_pagamento} Status: {self._status}"
             
