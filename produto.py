@@ -1,3 +1,6 @@
+
+produtos = []
+
 class Produto:
     def __init__(self,nome,marca,quantidade_estoque:int,preco:float,peso:float):
         self.__nome = nome
@@ -54,14 +57,18 @@ class Produto:
     
     
     
-    
+def inicializar_produtos_padrao():
+    notebook_1 = Produto('notebook aspire','acer',25,2799.99,1.5)
+    micro_ondas = Produto('microondas hot wave','eletrolux',16,350.00,10)
+    cama = Produto('cochão king','gazin',3,1749.99,30)
+    produtos.append(notebook_1)
+    produtos.append(micro_ondas)
+    produtos.append(cama)       
         
 
     
 
 
-notebook_1 = Produto('notebook aspire','acer',25,2799.99,1.5)
-micro_ondas = Produto('microondas hot wave','eletrolux',16,350.00,10)
-cama = Produto('cochão king','gazin',3,1749.99,30)
+
 
         

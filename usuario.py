@@ -178,23 +178,24 @@ class Cliente(Usuario):
             print("Você ainda não cadastrou um endereço.")
             
     def escolher_produto(self):
-        item = input(f'Gostaria de adicionar qual desses produtos ao Carrinho de compras?\n1 - {produto.notebook_1._nome} = {produto.notebook_1._preco}R$\n2 - {produto.micro_ondas._nome} = {produto.micro_ondas._preco}R$\n3 - {produto.cama._nome} = {produto.cama._preco}R$\n')
-        
-        if item == '1':
-            self._carrinho.append(produto.notebook_1)
-            print(f'O produto {produto.notebook_1._nome} foi adicionado ao carrinho')
-        elif item == '2':
-            self._carrinho.append(produto.micro_ondas)
-            print(f'O produto {produto.micro_ondas._nome} foi adicionado ao carrinho')
-        elif item == '3':
-            if produto.cama._quantidade_estoque == 0:
-                print('Desculpe! Produto fora de estoque')
-            else:
-                self._carrinho.append(produto.cama)
-                print(f'O produto {produto.cama._nome} foi adicionado ao carrinho')
-        else:
-            print('Você não selecionou nenhum produto.')
+        num = 0
+        for item in produto.produtos:
+            num +=1
+            print(f'{num} - {item._nome} Preço: {item._preco}\n')
             
+        escolha = int(input('digite o numero do produto que vc gostaria de adicionar: '))
+        
+        if escolha == 0:
+            print('opcao invalida')
+        elif escolha > len(produto.produtos):
+            print('opcao invalida')
+        else:
+            escolha_index = escolha - 1
+            self._carrinho.append(produto.produtos[escolha_index])
+            print(f'\n{produto.produtos[escolha_index]} foi adicionado ao seu carrinho de compras')
+        
+        
+        
     def remover_produto(self):
         
         
@@ -225,8 +226,8 @@ class Cliente(Usuario):
             print(f'Aqui está seu carrinho de compras: {self._carrinho}')
         else:
             print("Você ainda não adicionou nenhum produto ao carrinho.")
-            
-        
+  
+    
 class Entregador(Usuario):
     def __init__(self, nome,email,senha,cpf,tel,veiculo):
         super().__init__(nome,email,senha)
@@ -344,24 +345,35 @@ def inicializar_entregadores_padrao():
 
 
 def cadastrar_usuario():
-    tipo = input('Seu cadastro será para Entregador ou Cliente? ').lower()
+    while True:
+        tipo = input('Seu cadastro será para Cliente ou Entregador?(digite 1 para Cliente e 2 para Entregador): ')
+        if tipo in ['1','2']:
+            break
+        else:
+            print('Opção de usuario incorreto')
+            
     nome = input('Digite seu nome de usuário: ')
     email = input('Digite seu email: ')
     senha = input('Digite sua senha: ')
     cpf = input('Digite seu CPF: ')
     tel = input('Digite seu telefone: ')
 
-    if tipo == 'entregador':
-        veiculo = input('Seu veiculo é um carro, moto ou caminhão: ').lower()
-        novo_entregador = Entregador(nome, email, senha, cpf, tel, veiculo)
-        entregadores.append(novo_entregador)
-        print(f"Entregador {nome} cadastrado com sucesso!")
-    elif tipo == 'cliente':
+    
+    if tipo == '1':
         novo_cliente = Cliente(nome, email, senha, cpf, tel)
         usuarios.append(novo_cliente)
         print(f"Cliente {nome} cadastrado com sucesso!")
-    else:
-        print('Tipo de usuário inválido.')
+    elif tipo == '2':
+        while True:
+            veiculo = input('Seu veiculo é um carro, moto ou caminhão: ').lower()
+            if veiculo not in ['carro','moto','caminhão']:
+                print('veiculo incorreto, tente novamente')
+            else:
+                break
+        novo_entregador = Entregador(nome, email, senha, cpf, tel, veiculo)
+        entregadores.append(novo_entregador)
+        print(f"Entregador {nome} cadastrado com sucesso!")
+    
 
 
 def realizar_login():

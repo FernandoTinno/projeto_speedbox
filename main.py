@@ -1,4 +1,5 @@
 import usuario
+import produto
 
     
 
@@ -7,6 +8,7 @@ import usuario
 
 if __name__ == "__main__":
     usuario.inicializar_entregadores_padrao()
+    produto.inicializar_produtos_padrao()
     while True:
         opcao = input("\nEscolha uma opção:\n1 - Cadastrar Usuário\n2 - Realizar Login\n3 - Sair\n")
 
