@@ -78,8 +78,10 @@ class Cliente(Usuario):
         self.__telefone = tel
         self.__endereco = None
         self.__carrinho = []
+        self.__pedidos_feitos = []
 
-
+        
+        
     @property
     def _cliente_id(self):
         return self.__cliente_id
@@ -126,7 +128,15 @@ class Cliente(Usuario):
 
     @_carrinho.setter
     def _carrinho(self, value):
-        self.__carrinho = value    
+        self.__carrinho = value   
+        
+    @property
+    def _pedidos_feitos(self):
+        return self.__pedidos_feitos
+
+    @_pedidos_feitos.setter
+    def _pedidos_feitos(self, value):
+        self.__pedidos_feitos = value     
 
     def __str__(self):
         return super().__str__()
@@ -226,6 +236,17 @@ class Cliente(Usuario):
             print(f'Aqui está seu carrinho de compras: {self._carrinho}')
         else:
             print("Você ainda não adicionou nenhum produto ao carrinho.")
+            
+            
+    def historico_pedidos(self):
+        if self._pedidos_feitos:
+                print("\nSeu Histórico de Pedidos:")
+                for pedidos in self._pedidos_feitos:
+                    print(pedidos)
+        else:
+            print("Você ainda não realizou nenhum pedido.")
+            return False
+
   
     
 class Entregador(Usuario):
