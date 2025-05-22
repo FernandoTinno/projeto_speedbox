@@ -208,6 +208,7 @@ class Pedido:
             else:   
                 print('A opção para forma de pagamento invalida!') 
         item._quantidade_estoque -= quantidade
+        self._cliente._pedidos_feitos.append(self)
         print("Compra finalizada com sucesso!")
         return True
 

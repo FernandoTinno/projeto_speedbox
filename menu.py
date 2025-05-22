@@ -3,7 +3,7 @@ import pedido
 
 def opt_cliente(cliente_logado): 
     while True:
-        opcao = input(f"\nOpções do Cliente ({cliente_logado._nome}):\n1 - Adicionar Endereço\n2 - Remover Endereço\n3 - Ver Endereço\n4 - Adicionar Produto\n5 - Remover Produto\n6 - Ver Produto\n7 - Finalizar Compra\n8 - Sair\n")
+        opcao = input(f"\nOpções do Cliente ({cliente_logado._nome}):\n1 - Adicionar Endereço\n2 - Remover Endereço\n3 - Ver Endereço\n4 - Adicionar Produto\n5 - Remover Produto\n6 - Ver Produto\n7 - Finalizar Compra\n8 - Historico de pedidos\n9 - Sair\n")
 
         if opcao == '1':
             cliente_logado.adicionar_endereco()
@@ -20,8 +20,9 @@ def opt_cliente(cliente_logado):
         elif opcao == '7':
             novo_pedido = pedido.Pedido(cliente_logado)
             novo_pedido.finalizar_compra()
-                
         elif opcao == '8':
+            cliente_logado.historico_pedidos()     
+        elif opcao == '9':
             print("Saindo do menu do cliente.")
             return False
         else:
