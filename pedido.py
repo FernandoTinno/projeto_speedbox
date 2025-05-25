@@ -26,7 +26,9 @@ class Pedido:
         self.__tempo_entrega = None
         self.__endereco = None
         self.__avaliacao = 'pendente'
+        self.__avaliacao_entregador = 'pendente'
 
+    
     @property
     def _pedido_id(self):
         return self.__pedido_id
@@ -122,10 +124,16 @@ class Pedido:
     @_avaliacao.setter
     def _avaliacao(self, value):
         self.__avaliacao = value
+        
+    @property
+    def _avaliacao_entregador(self):
+        return self.__avaliacao_entregador
+
+    @_avaliacao_entregador.setter
+    def _avaliacao_entregador(self, value):
+        self.__avaliacao_entregador = value
 
         
-        
-
         
         
     def finalizar_compra(self):
@@ -235,5 +243,5 @@ class Pedido:
         return True
 
     def __repr__(self):
-        return f"Pedido ID: {self._pedido_id},Data da pedido: {self._data_pedido} Cliente: {self._cliente._nome}, Endereço de Entrega: {self._endereco}, Motorista Responsavel: {self._entregador_escolhido._nome}, Tempo de Espera: {self._tempo_entrega}, Valor Total: R$ {self._valor_total}, Metodo de Pagamento: {self._metodo_de_pagamento}, Status: {self._status}, Avaliação: {self.__avaliacao}\n"
+        return f"Pedido ID: {self._pedido_id},Data da pedido: {self._data_pedido} Cliente: {self._cliente._nome}, Endereço de Entrega: {self._endereco}, Motorista Responsavel: {self._entregador_escolhido._nome}, Tempo de Espera: {self._tempo_entrega}, Valor Total: R$ {self._valor_total}, Metodo de Pagamento: {self._metodo_de_pagamento}, Status: {self._status}, Avaliação: {self.__avaliacao}, Avaliação do Entregador: {self._avaliacao_entregador}\n"
             

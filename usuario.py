@@ -217,9 +217,7 @@ class Cliente(Usuario):
             else:
                 self._carrinho.append(produto.produtos[escolha_index])
                 print(f'\n{produto.produtos[escolha_index]} foi adicionado ao seu carrinho de compras')
-        
-        
-        
+             
     def remover_produto(self):
         
         
@@ -252,9 +250,8 @@ class Cliente(Usuario):
         else:
             print("Você ainda não adicionou nenhum produto ao carrinho.")
             
-            
     def historico_pedidos(self):
-        if self._pedidos_feitos:
+        if self._pedidos_feitos or self._pedidos_avaliados:
                 print("\nSeu Histórico de Pedidos:")
                 for pedidos in self._pedidos_feitos:
                     print(pedidos)
@@ -283,46 +280,51 @@ class Cliente(Usuario):
                 
                 
                 while True:
-                    avaliar = input(f'em relação ao pedido {pedido_a_avaliar._pedido_id},\n Digite sua nota de 1 a 5 em relação ao pedido, desde a espera até o produto em si: ')
+                    avaliar = input(f'em relação ao pedido {pedido_a_avaliar._pedido_id}\n Digite sua nota de 1 a 5 em relação ao pedido, desde a espera até o produto em si: ')
                     if avaliar in ['1','2']:
                         print(f'Sinto muito pela má experiencia que você teve {self._nome}. Agradeçemos ao seu feedback e iremos melhorar, desde já agradeço!')
-                        pedido_a_avaliar._avaliacao = avaliar
-                        self._pedidos_avaliados.append(pedido_a_avaliar)
-                        self._pedidos_feitos.remove(pedido_a_avaliar)
                         break
-                    
                     elif avaliar in ['3','4']:
                         print(f'Ficamos contende que sua experiencia tenha sido agradavel {self._nome}. Agradeçemos ao seu feedback e iremos melhorar, para que possamos ser nota máxima!')
-                        pedido_a_avaliar._avaliacao = avaliar
-                        self._pedidos_avaliados.append(pedido_a_avaliar)
-                        self._pedidos_feitos.remove(pedido_a_avaliar)
                         break
                     elif avaliar in ['5']:
-                        print(f'Estamos cem porcentos contente com sua avaliação {self._nome}. Atraves dela, conseguimos perceber que estamos fazendo um otimo serviço, muito obrigado!')
-                        pedido_a_avaliar._avaliacao = avaliar
-                        self._pedidos_avaliados.append(pedido_a_avaliar)
-                        self._pedidos_feitos.remove(pedido_a_avaliar)
+                        print(f'Estamos cem porcento contente com sua avaliação {self._nome}. Atraves dela, conseguimos perceber que estamos fazendo um otimo serviço, muito obrigado!')
                         break
                     else:
                         print(f'A nota que você atribuiu ao pedido está incorreta')
+                        
+                
+                while True:
+                        avaliar_entregador = input(f'em relação ao entregador {pedido_a_avaliar._entregador_escolhido._nome}\n Digite sua nota de 1 a 5 em relação ao entregador, desde a valocidade de entrega, as condições em que o produto foi entregue e abordagem do entregador: ')
+                        
+                        if avaliar_entregador in ['1','2']:
+                            print(f'Sinto muito pela má experiencia que você teve {self._nome}. Agradeçemos ao seu feedback e iremos reportar ao nosso entregador, desde já agradeço!')
+                            pedido_a_avaliar._avaliacao = avaliar
+                            pedido_a_avaliar._avaliacao_entregador = avaliar_entregador
+                            self._pedidos_avaliados.append(pedido_a_avaliar)
+                            self._pedidos_feitos.remove(pedido_a_avaliar)
+                            break
+                        elif avaliar_entregador in ['3','4']:
+                            print(f'Ficamos contende que sua experiencia tenha sido agradavel {self._nome}. Agradeçemos ao seu feedback e iremos repassar para nosso entregador, para que ele se torne nota máxima!')
+                            pedido_a_avaliar._avaliacao = avaliar
+                            pedido_a_avaliar._avaliacao_entregador = avaliar_entregador
+                            self._pedidos_avaliados.append(pedido_a_avaliar)
+                            self._pedidos_feitos.remove(pedido_a_avaliar)
+                            break
+                        elif avaliar_entregador in ['5']:
+                            print(f'Estamos cem porcento contente com sua avaliação {self._nome}. Atraves dela, conseguimos perceber que nosso entregador esta fazendo um otimo serviço, muito obrigado!')
+                            pedido_a_avaliar._avaliacao = avaliar
+                            pedido_a_avaliar._avaliacao_entregador = avaliar_entregador
+                            self._pedidos_avaliados.append(pedido_a_avaliar)
+                            self._pedidos_feitos.remove(pedido_a_avaliar)
+                            break
+                        else:
+                            print(f'A nota que você atribuiu ao pedido está incorreta')                        
         else:
-            print('Você não possui nenhum Pedido para Avaliar')           
+            print('Você não possui nenhum Pedido como concluido para poder Avaliar')           
                     
                   
                 
-        
-            
-            
-            
-            
-            
-            
-            
-            
-            
-        
-  
-    
 class Entregador(Usuario):
     def __init__(self, nome,email,senha,cpf,tel,veiculo):
         super().__init__(nome,email,senha)
@@ -429,6 +431,25 @@ class Entregador(Usuario):
         else:
             print("Você ainda não entregou nenhum pedido.")
             return False
+    
+    def ver_nota(self):
+        if self._pedidos_entregues:
+            notas_avaliadas = []
+            for item in self._pedidos_entregues:
+                if item._avaliacao_entregador in ['1','2','3','4','5']:
+                    nota_int = int(item._avaliacao_entregador)
+                    notas_avaliadas.append(nota_int)
+                else:
+                    pass
+            if notas_avaliadas:
+                soma_notas = sum(notas_avaliadas)
+                qtd_notas = len(notas_avaliadas)
+                print(f'Quantidade de notas que Você possui: {qtd_notas}.\nAqui está sua média: {soma_notas / qtd_notas}')
+            else:
+                print('Você não possui nenhma avaliação ainda')
+        else:
+            print('Você ainda não tem nenhum pedido')
+    
     
 def inicializar_entregadores_padrao():
     carlos = Entregador('Carlos Henrique','carlos_moto@gmail.com','carlos_moto123','18467529341','18997485236','moto')
