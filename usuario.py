@@ -79,9 +79,10 @@ class Cliente(Usuario):
         self.__endereco = None
         self.__carrinho = []
         self.__pedidos_feitos = []
+        self.__pedidos_avaliados = []
 
-        
-        
+    
+ 
     @property
     def _cliente_id(self):
         return self.__cliente_id
@@ -137,6 +138,15 @@ class Cliente(Usuario):
     @_pedidos_feitos.setter
     def _pedidos_feitos(self, value):
         self.__pedidos_feitos = value     
+                
+    @property
+    def _pedidos_avaliados(self):
+        return self.__pedidos_avaliados
+
+    @_pedidos_avaliados.setter
+    def _pedidos_avaliados(self, value):
+        self.__pedidos_avaliados = value
+
 
     def __str__(self):
         return super().__str__()
@@ -201,8 +211,12 @@ class Cliente(Usuario):
             print('opcao invalida')
         else:
             escolha_index = escolha - 1
-            self._carrinho.append(produto.produtos[escolha_index])
-            print(f'\n{produto.produtos[escolha_index]} foi adicionado ao seu carrinho de compras')
+            if produto.produtos[escolha_index]._quantidade_estoque == 0:
+                print('\nProduto fora de estoque!')
+                return False
+            else:
+                self._carrinho.append(produto.produtos[escolha_index])
+                print(f'\n{produto.produtos[escolha_index]} foi adicionado ao seu carrinho de compras')
         
         
         
@@ -244,10 +258,69 @@ class Cliente(Usuario):
                 print("\nSeu Histórico de Pedidos:")
                 for pedidos in self._pedidos_feitos:
                     print(pedidos)
+                for pedidos_avaliados in self._pedidos_avaliados:
+                    print(pedidos_avaliados)
         else:
             print("Você ainda não realizou nenhum pedido.")
             return False
-
+        
+    def avaliar_pedido(self):
+        
+        pedidos_para_avaliar = []
+        for pedido in self._pedidos_feitos:
+            if pedido._status == 'concluido':
+                pedidos_para_avaliar.append(pedido)
+            else:
+                pass
+        for pedido_filtrado in pedidos_para_avaliar:
+            if pedido_filtrado._avaliacao != 'pendente':
+                pedidos_para_avaliar.remove(pedido_filtrado)
+            else:
+                pass
+        
+        if pedidos_para_avaliar:
+            for pedido_a_avaliar in pedidos_para_avaliar:
+                
+                
+                while True:
+                    avaliar = input(f'em relação ao pedido {pedido_a_avaliar._pedido_id},\n Digite sua nota de 1 a 5 em relação ao pedido, desde a espera até o produto em si: ')
+                    if avaliar in ['1','2']:
+                        print(f'Sinto muito pela má experiencia que você teve {self._nome}. Agradeçemos ao seu feedback e iremos melhorar, desde já agradeço!')
+                        pedido_a_avaliar._avaliacao = avaliar
+                        self._pedidos_avaliados.append(pedido_a_avaliar)
+                        self._pedidos_feitos.remove(pedido_a_avaliar)
+                        break
+                    
+                    elif avaliar in ['3','4']:
+                        print(f'Ficamos contende que sua experiencia tenha sido agradavel {self._nome}. Agradeçemos ao seu feedback e iremos melhorar, para que possamos ser nota máxima!')
+                        pedido_a_avaliar._avaliacao = avaliar
+                        self._pedidos_avaliados.append(pedido_a_avaliar)
+                        self._pedidos_feitos.remove(pedido_a_avaliar)
+                        break
+                    elif avaliar in ['5']:
+                        print(f'Estamos cem porcentos contente com sua avaliação {self._nome}. Atraves dela, conseguimos perceber que estamos fazendo um otimo serviço, muito obrigado!')
+                        pedido_a_avaliar._avaliacao = avaliar
+                        self._pedidos_avaliados.append(pedido_a_avaliar)
+                        self._pedidos_feitos.remove(pedido_a_avaliar)
+                        break
+                    else:
+                        print(f'A nota que você atribuiu ao pedido está incorreta')
+        else:
+            print('Você não possui nenhum Pedido para Avaliar')           
+                    
+                  
+                
+        
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        
   
     
 class Entregador(Usuario):

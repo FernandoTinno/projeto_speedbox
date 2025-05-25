@@ -58,8 +58,8 @@ class Produto:
     
     
 def inicializar_produtos_padrao():
-    notebook_1 = Produto('notebook aspire','acer',25,2799.99,1.5)
-    micro_ondas = Produto('microondas hot wave','eletrolux',16,350.00,10)
+    notebook_1 = Produto('notebook aspire','acer',4,2799.99,1.5)
+    micro_ondas = Produto('microondas hot wave','eletrolux',2,350.00,10)
     cama = Produto('cochão king','gazin',3,1749.99,30)
     produtos.append(notebook_1)
     produtos.append(micro_ondas)

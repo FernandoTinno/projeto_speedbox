@@ -19,12 +19,13 @@ class Pedido:
         self.__cliente = cliente
         self.__itens_pedido = []
         self.__valor_total = 0.0
-        self.__status = "pendente"
+        self.__status = 'pendente'
         self.__metodo_de_entrega = None
         self.__entregador_escolhido = None
         self.__metodo_de_pagamento = None
         self.__tempo_entrega = None
         self.__endereco = None
+        self.__avaliacao = 'pendente'
 
     @property
     def _pedido_id(self):
@@ -113,6 +114,14 @@ class Pedido:
     @_endereco.setter
     def _endereco(self, value):
         self.__endereco = value
+        
+    @property
+    def _avaliacao(self):
+        return self.__avaliacao
+
+    @_avaliacao.setter
+    def _avaliacao(self, value):
+        self.__avaliacao = value
 
         
         
@@ -141,10 +150,12 @@ class Pedido:
                 self._itens_pedido.append(item)
                 valor_total_pedido += item._preco * quantidade
                 print(f"- {item._nome} (x{quantidade}): R$ {item._preco} (Subtotal: R$ {item._preco * quantidade:})")
-                
+                   
+        
                 for _ in range(quantidade):
                     itens_para_remover.append(item)
-                    
+        for item_estoque in self._cliente._carrinho:
+            item_estoque._quantidade_estoque -=1      
 
         maior_peso = 0
         for item in self._cliente._carrinho:
@@ -218,11 +229,11 @@ class Pedido:
                 break
             else:   
                 print('A opção para forma de pagamento invalida!') 
-        item._quantidade_estoque -= quantidade
+        
         self._cliente._pedidos_feitos.append(self)
         print("Compra finalizada com sucesso!")
         return True
 
     def __repr__(self):
-        return f"Pedido ID: {self._pedido_id},Data da pedido: {self._data_pedido} Cliente: {self._cliente._nome}, Endereço de Entrega: {self._endereco}, Motorista Responsavel: {self._entregador_escolhido._nome}, Tempo de Espera: {self._tempo_entrega}, Valor Total: R$ {self._valor_total}, Metodo de Pagamento: {self._metodo_de_pagamento}, Status: {self._status}\n"
+        return f"Pedido ID: {self._pedido_id},Data da pedido: {self._data_pedido} Cliente: {self._cliente._nome}, Endereço de Entrega: {self._endereco}, Motorista Responsavel: {self._entregador_escolhido._nome}, Tempo de Espera: {self._tempo_entrega}, Valor Total: R$ {self._valor_total}, Metodo de Pagamento: {self._metodo_de_pagamento}, Status: {self._status}, Avaliação: {self.__avaliacao}\n"
             
