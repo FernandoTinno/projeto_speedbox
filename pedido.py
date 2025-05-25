@@ -24,6 +24,7 @@ class Pedido:
         self.__entregador_escolhido = None
         self.__metodo_de_pagamento = None
         self.__tempo_entrega = None
+        self.__endereco = None
 
     @property
     def _pedido_id(self):
@@ -104,6 +105,14 @@ class Pedido:
     @_tempo_entrega.setter
     def _tempo_entrega(self, value):
         self.__tempo_entrega = value
+        
+    @property
+    def _endereco(self):
+        return self.__endereco
+
+    @_endereco.setter
+    def _endereco(self, value):
+        self.__endereco = value
 
         
         
@@ -190,6 +199,8 @@ class Pedido:
             self._tempo_entrega = 7
             print(f"Não foi possível estimar o tempo de entrega para o seu estado. O tempo estimado é de {self._tempo_entrega} dia(s).")
         
+        self._endereco = self._cliente._endereco
+        
         print(f"\nValor total do pedido: R$ {self._valor_total}")
         while True:
             mtd_pagamento = input('Qual metodo de pagamento você deseja:\n1 - Pix\n2 - Boleto\n3 - Crédito\n4 - Débito:\n')
@@ -213,5 +224,5 @@ class Pedido:
         return True
 
     def __repr__(self):
-        return f"Pedido ID: {self._pedido_id},Data da pedido: {self._data_pedido} Cliente: {self._cliente._nome}, Endereço de Entrega: {self._cliente._endereco}, Tempo de Espera: {self._tempo_entrega}, Valor Total: R$ {self._valor_total}, Metodo de Pagamento: {self._metodo_de_pagamento}, Status: {self._status}"
+        return f"Pedido ID: {self._pedido_id},Data da pedido: {self._data_pedido} Cliente: {self._cliente._nome}, Endereço de Entrega: {self._endereco}, Motorista Responsavel: {self._entregador_escolhido._nome}, Tempo de Espera: {self._tempo_entrega}, Valor Total: R$ {self._valor_total}, Metodo de Pagamento: {self._metodo_de_pagamento}, Status: {self._status}\n"
             

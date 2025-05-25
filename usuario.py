@@ -218,10 +218,11 @@ class Cliente(Usuario):
                 print(item._nome)
                 remover_item = input('Você gostaria de remover esse item?(digite 1 para sim e 2 para não): ')
                 if remover_item == '1':
+                    print(f'Ok, o item {item._nome} foi removido com sucesso\n')
                     itens_removidos.append(item._nome)
                     
                 elif remover_item == '2':
-                    print(f'Tudo bem, esse item será mantido no seu carrinho')
+                    print(f'Tudo bem, esse item será mantido no seu carrinho\n')
                     carrinho_novo.append(item)
                 else:
                     print('A opção que você selecionou está incorreta')

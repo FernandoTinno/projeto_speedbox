@@ -1,10 +1,6 @@
 import usuario
 import produto
 
-    
-
-
-
 
 if __name__ == "__main__":
     usuario.inicializar_entregadores_padrao()
