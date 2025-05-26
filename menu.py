@@ -55,6 +55,21 @@ def opt_entregador(entregador_logado):
             print("Opção inválida. Tente novamente.")
 
 
+import produto
+
 def opt_administrador(adm_logado):
-    pass #mais para frente, pretendo colocar opcoes para o administrador, como por exemplo, adicionar ou remover produtos e afins
+    while True:
+        opcao = input(f"\nOpções do Administrador ({adm_logado._nome}):\n1 - Adicionar Produto\n2 - Remover Produto\n3 - Listar Produtos\n4 - Sair\n")
+        
+        if opcao == '1':
+            produto.adicionar_produto()
+        elif opcao == '2':
+            produto.remover_produto()
+        elif opcao == '3':
+            produto.listar_produtos()
+        elif opcao == '4':
+            print("Saindo do menu do administrador.")
+            return False
+        else:
+            print("Opção inválida. Tente novamente.")
        
