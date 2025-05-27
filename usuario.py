@@ -322,8 +322,7 @@ class Cliente(Usuario):
                             print(f'A nota que você atribuiu ao pedido está incorreta')                        
         else:
             print('Você não possui nenhum Pedido como concluido para poder Avaliar')           
-                    
-                  
+                        
                 
 class Entregador(Usuario):
     def __init__(self, nome,email,senha,cpf,tel,veiculo):
@@ -460,20 +459,23 @@ def inicializar_entregadores_padrao():
     entregadores.append(jair)    
 
 
-def cadastrar_usuario():
+def obter_input_validado(exibir_mensagem, condicao, exibir_erro):
     while True:
-        tipo = input('Seu cadastro será para Cliente ou Entregador?(digite 1 para Cliente e 2 para Entregador): ')
-        if tipo in ['1','2']:
-            break
+        valor = input(exibir_mensagem).strip()
+        if condicao(valor):
+            return valor
         else:
-            print('Opção de usuario incorreto')
-            
-    nome = input('Digite seu nome de usuário: ')
-    email = input('Digite seu email: ')
-    senha = input('Digite sua senha: ')
-    cpf = input('Digite seu CPF: ')
-    tel = input('Digite seu telefone: ')
+            print(exibir_erro)
 
+
+def cadastrar_usuario():
+    
+    tipo = obter_input_validado('Seu cadastro será para Cliente ou Entregador?(digite 1 para Cliente e 2 para Entregador): ', lambda x: x in ['1','2'], 'Opção de usuario incorreto')                 
+    nome = obter_input_validado('Digite seu nome de usuário: ', lambda x:len(x)>=3, 'Nome de usuario não pode ter menos de três caracteres\n')
+    email = obter_input_validado('Digite seu email: ', lambda x: '@' in x and x.index('@') > 0 and x.endswith(('@gmail.com','@hotmail.com','@outlook.com')), 'seu email está invalido, pois não consta o endereço de email correto ou o nome do usuario do email está incorreto\n')
+    senha = obter_input_validado('Digite sua senha(no minimo oito caracteres): ', lambda x:len(x)>=8, 'A senha deve conter pelo menos oito caracteres\n')
+    cpf = obter_input_validado('Digite seu cpf: ', lambda x:len(x) == 11, 'O cpf deve conter onze digitos\n')
+    tel = obter_input_validado('Digite seu telefone(incluir DDD e apenas os números): ', lambda x:len(x) == 11, 'O telefone deve conter apenas números e somente onze digitos\n')
     
     if tipo == '1':
         novo_cliente = Cliente(nome, email, senha, cpf, tel)
@@ -490,7 +492,6 @@ def cadastrar_usuario():
         entregadores.append(novo_entregador)
         print(f"Entregador {nome} cadastrado com sucesso!")
     
-
 
 def realizar_login():
     email_usuario_login = input("Digite seu email de usuário: ")
