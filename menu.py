@@ -1,4 +1,4 @@
-
+import endereco
 import pedido
 
 def opt_cliente(cliente_logado): 
@@ -6,11 +6,11 @@ def opt_cliente(cliente_logado):
         opcao = input(f"\nOpções do Cliente ({cliente_logado._nome}):\n1 - Adicionar Endereço\n2 - Remover Endereço\n3 - Ver Endereço\n4 - Adicionar Produto\n5 - Remover Produto\n6 - Ver Produto\n7 - Finalizar Compra\n8 - Historico de pedidos\n9 - Avaliar Pedido\n10 - Sair\n")
 
         if opcao == '1':
-            cliente_logado.adicionar_endereco()
+            endereco.Endereco.adicionar_endereco(cliente_logado)
         elif opcao == '2':
-            cliente_logado.remover_endereco() 
+            endereco.Endereco.remover_endereco(cliente_logado) 
         elif opcao == '3':
-            cliente_logado.ver_endereco()
+            endereco.Endereco.ver_endereco(cliente_logado)
         elif opcao == '4':
             cliente_logado.escolher_produto()
         elif opcao == '5':

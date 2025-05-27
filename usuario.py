@@ -154,49 +154,7 @@ class Cliente(Usuario):
     def __repr__(self):
         return super().__repr__()
     
-    
-    def adicionar_endereco(self):
-        if not self._endereco:
-            
-            print("Vamos cadastrar o seu endereço:")
-            logradouro = input('Digite o logradouro: ')
-            numero = input('Digite o número: ')
-            bairro = input('Digite o bairro: ')
-            cidade = input('Digite a cidade: ')
-            
-            while True:
-                estado = input('Digite a sigla do seu estado (Ex: SP): ').upper()
-                if estado in pedido.TEMPOS_DE_ENTREGA: 
-                    break
-                else:
-                    print("Sigla de estado inválida. Por favor, digite uma sigla válida (Ex: SP, RJ, MG).")
-            self._endereco = endereco.Endereco(logradouro, numero, bairro, cidade, estado)
-            print("Endereço adicionado com sucesso!")
-        else:
-            print('Você já tem um endereço cadastrado')
-
-    def remover_endereco(self):
-        if self._endereco:
-            confirmar = input('Você tem certeza que deseja remover o endereço (digite 1 para sim e 2 para não): ')
-            while True:
-                if confirmar == '1':
-                    self._endereco = None
-                    break
-                elif confirmar == '2':
-                    print('Remoção de endereço cancelada')
-                    break
-                else:
-                    print('A opção que você digitou está incorreta')
-                    confirmar = input('Você tem certeza que deseja remover o endereço (digite 1 para sim e 2 para não): ')
-        else:
-            print('Você não possui nenhum endereço')         
-               
-    def ver_endereco(self):
-        if self._endereco:
-            print("Seu endereço:", self._endereco)
-        else:
-            print("Você ainda não cadastrou um endereço.")
-            
+           
     def escolher_produto(self):
         num = 0
         for item in produto.produtos:

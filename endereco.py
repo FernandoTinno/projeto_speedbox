@@ -1,41 +1,98 @@
+import pedido
+
 class Endereco:
     def __init__(self, logradouro, numero, bairro, cidade, estado):
-        self.logradouro = logradouro
-        self.numero = numero
-        self.bairro = bairro
-        self.cidade = cidade
-        self.estado = estado
+        self.__logradouro = logradouro
+        self.__numero = numero
+        self.__bairro = bairro
+        self.__cidade = cidade
+        self.__estado = estado
 
-    def get_logradouro(self):
-        return self.logradouro
+    @property
+    def _logradouro(self):
+        return self.__logradouro
 
-    def set_logradouro(self, value):
-        self.logradouro = value
+    @_logradouro.setter
+    def _logradouro(self, value):
+        self.__logradouro = value
 
-    def get_numero(self):
-        return self.numero
+    @property
+    def _numero(self):
+        return self.__numero
 
-    def set_numero(self, value):
-        self.numero = value
+    @_numero.setter
+    def _numero(self, value):
+        self.__numero = value
 
-    def get_bairro(self):
-        return self.bairro
+    @property
+    def _bairro(self):
+        return self.__bairro
 
-    def set_bairro(self, value):
-        self.bairro = value
+    @_bairro.setter
+    def _bairro(self, value):
+        self.__bairro = value
 
-    def get_cidade(self):
-        return self.cidade
+    @property
+    def _cidade(self):
+        return self.__cidade
 
-    def set_cidade(self, value):
-        self.cidade = value
+    @_cidade.setter
+    def _cidade(self, value):
+        self.__cidade = value
 
-    def get_estado(self):
-        return self.estado
+    @property
+    def _estado(self):
+        return self.__estado
 
-    def set_estado(self, value):
-        self.estado = value
+    @_estado.setter
+    def _estado(self, value):
+        self.__estado = value
 
 
     def __repr__(self):
-        return f"{self.logradouro}, {self.numero}, {self.bairro}, {self.cidade}, {self.estado}"
+        return f"{self._logradouro}, {self._numero}, {self._bairro}, {self.__cidade}, {self._estado}"
+    
+    def adicionar_endereco(usuario):
+        if not usuario._endereco:
+            
+            print("Vamos cadastrar o seu endereço:")
+            logradouro = input('Digite o logradouro: ')
+            numero = input('Digite o número: ')
+            bairro = input('Digite o bairro: ')
+            cidade = input('Digite a cidade: ')
+            
+            while True:
+                estado = input('Digite a sigla do seu estado (Ex: SP): ').upper()
+                if estado in pedido.TEMPOS_DE_ENTREGA: 
+                    break
+                else:
+                    print("Sigla de estado inválida. Por favor, digite uma sigla válida (Ex: SP, RJ, MG).")
+            endereco_usuario = Endereco(logradouro, numero, bairro, cidade, estado)
+            usuario._endereco = endereco_usuario
+            print("Endereço adicionado com sucesso!")
+        else:
+            print('Você já tem um endereço cadastrado')
+            
+    
+    def remover_endereco(usuario):
+        if usuario._endereco:
+            
+            while True:
+                confirmar = input('Você tem certeza que deseja remover o endereço (digite 1 para sim e 2 para não): ')
+                if confirmar == '1':
+                    usuario._endereco = None
+                    break
+                elif confirmar == '2':
+                    print('Remoção de endereço cancelada')
+                    break
+                else:
+                    print('A opção que você digitou está incorreta')            
+        else:
+            print('Você não possui nenhum endereço') 
+    
+    
+    def ver_endereco(usuario):
+        if usuario._endereco:
+            print("Seu endereço:", usuario._endereco)
+        else:
+            print("Você ainda não cadastrou um endereço.")
