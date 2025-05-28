@@ -1,9 +1,8 @@
 from uuid import uuid4
 from datetime import datetime
-import endereco
 import menu
 import produto
-import pedido
+
 
 usuarios = []
 entregadores = []
@@ -457,8 +456,7 @@ def realizar_login():
 
     if email_usuario_login == 'admin' and senha_login == 'admin123':
         print("Login bem-sucedido como Administrador!")
-        admin = Administrador()
-        if menu.opt_administrador(admin):
+        if menu.opt_administrador():
             return True
         else:
             return False

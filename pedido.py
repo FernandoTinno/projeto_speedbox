@@ -201,11 +201,11 @@ class Pedido:
             self._cliente._carrinho.remove(item)
 
         self.__valor_total = valor_total_pedido + frete
-        #self.__status = "concluído"
+        
         
         print(f'frete: {frete}R$')
         
-        estado_cliente = self._cliente._endereco.estado
+        estado_cliente = self._cliente._endereco._estado
         estado_empresa = empresa.speedbox._estado.upper()
         
         if estado_cliente == estado_empresa:

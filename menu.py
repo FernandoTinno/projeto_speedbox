@@ -32,10 +32,6 @@ def opt_cliente(cliente_logado):
             print("Opção inválida. Tente novamente.")
     
     
-    
-    
-
-
 def opt_entregador(entregador_logado):
     while True:
         opcao = input(f"\nOpções do Entregador ({entregador_logado._nome}):\n1 - Concluir pedidos\n2 - Ver Histórico de Pedidos\n3 - Ver Notas\n4 - sair\n")
@@ -56,7 +52,7 @@ def opt_entregador(entregador_logado):
             print("Opção inválida. Tente novamente.")
 
 
-def opt_administrador(adm_logado):
+def opt_administrador():
     while True:
         opcao = input(f"\nOpções do Administrador:\n1 - Adicionar Produto\n2 - Remover Produto\n3 - Listar Produtos\n4 - Sair\n")
         
