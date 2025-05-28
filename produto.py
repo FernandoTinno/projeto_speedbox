@@ -59,13 +59,19 @@ def adicionar_produto():
     while True:
         try:
             quantidade = int(input("Quantidade em estoque: "))
+            if quantidade < 0:
+                print("A quantidade não pode ser negativa.")
+                continue
             break
         except ValueError:
-            print("Por favor, digite um número inteiro para a quantidade.")
+            print("Por favor, digite um número inteiro válido.")
     
     while True:
         try:
             preco = float(input("Preço: R$"))
+            if preco <= 0:
+                print("O preço deve ser maior que zero.")
+                continue
             break
         except ValueError:
             print("Por favor, digite um número válido para o preço.")
@@ -73,6 +79,9 @@ def adicionar_produto():
     while True:
         try:
             peso = float(input("Peso (kg): "))
+            if peso <= 0:
+                print("O peso deve ser maior que zero.")
+                continue
             break
         except ValueError:
             print("Por favor, digite um número válido para o peso.")
@@ -87,21 +96,22 @@ def remover_produto():
         return
     
     print("\nProdutos disponíveis:")
-    for i, produto in enumerate(produtos, 1):
-        print(f"{i} - {produto}")
+    for i, prod in enumerate(produtos, 1):
+        print(f"{i} - {prod._nome} (Marca: {prod._marca}, Estoque: {prod._quantidade_estoque})")
     
     while True:
         try:
-            escolha = int(input("\nDigite o número do produto que deseja remover (ou 0 para cancelar): "))
-            if 0 <= escolha <= len(produtos):
+            escolha = input("\nDigite o número do produto que deseja remover (ou 0 para cancelar): ")
+            if escolha == '0':
+                print("Operação cancelada.")
+                return
+                
+            escolha = int(escolha)
+            if 1 <= escolha <= len(produtos):
                 break
-            print("Número inválido. Tente novamente.")
+            print(f"Por favor, digite um número entre 1 e {len(produtos)} ou 0 para cancelar.")
         except ValueError:
-            print("Por favor, digite um número.")
-    
-    if escolha == 0:
-        print("Operação cancelada.")
-        return
+            print("Por favor, digite um número válido.")
     
     produto_removido = produtos.pop(escolha - 1)
     print(f"\nProduto '{produto_removido._nome}' removido com sucesso!")
@@ -112,16 +122,14 @@ def listar_produtos():
         return
     
     print("\nLista de Produtos:")
-    for produto in produtos:
-        print(produto)
+    for i, prod in enumerate(produtos, 1):
+        print(f"{i} - {prod._nome} (Marca: {prod._marca}, Estoque: {prod._quantidade_estoque}, Preço: R${prod._preco:.2f}, Peso: {prod._peso}kg)")
 
 def inicializar_produtos_padrao():
-    notebook_1 = Produto('notebook aspire','acer',4,2799.99,1.5)
-    micro_ondas = Produto('microondas hot wave','eletrolux',2,350.00,10)
-    cama = Produto('cochão king','gazin',3,1749.99,30)
-    produtos.append(notebook_1)
-    produtos.append(micro_ondas)
-    produtos.append(cama)     
+    notebook_1 = Produto('notebook aspire', 'acer', 4, 2799.99, 1.5)
+    micro_ondas = Produto('microondas hot wave', 'eletrolux', 2, 350.00, 10)
+    cama = Produto('cochão king', 'gazin', 3, 1749.99, 30)
+    produtos.extend([notebook_1, micro_ondas, cama])     
         
 
     
