@@ -1,5 +1,6 @@
 import endereco
 import pedido
+import produto
 
 def opt_cliente(cliente_logado): 
     while True:
@@ -55,11 +56,9 @@ def opt_entregador(entregador_logado):
             print("Opção inválida. Tente novamente.")
 
 
-import produto
-
 def opt_administrador(adm_logado):
     while True:
-        opcao = input(f"\nOpções do Administrador ({adm_logado._nome}):\n1 - Adicionar Produto\n2 - Remover Produto\n3 - Listar Produtos\n4 - Sair\n")
+        opcao = input(f"\nOpções do Administrador:\n1 - Adicionar Produto\n2 - Remover Produto\n3 - Listar Produtos\n4 - Sair\n")
         
         if opcao == '1':
             produto.adicionar_produto()
