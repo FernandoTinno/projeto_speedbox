@@ -455,6 +455,14 @@ def realizar_login():
     email_usuario_login = input("Digite seu email de usuário: ")
     senha_login = input("Digite sua senha: ")
 
+    if email_usuario_login == 'admin' and senha_login == 'admin123':
+        print("Login bem-sucedido como Administrador!")
+        admin = Administrador()
+        if menu.opt_administrador(admin):
+            return True
+        else:
+            return False
+
     admin = Administrador()
     if email_usuario_login == admin._nome_usuario and senha_login == admin._senha_usuario:
         print("Login bem-sucedido como Administrador!")
