@@ -2,10 +2,11 @@ from uuid import uuid4
 from datetime import datetime
 import menu
 import produto
+import pedido
 
 
-usuarios = []
-entregadores = []
+
+
 
 
 class Usuario:
@@ -46,26 +47,34 @@ class Usuario:
         return f"{self._nome},{self._email}"
 
 
-class Administrador:
-    def __init__(self):
-        self.__nome_usuario = 'admin'
-        self.__senha_usuario = 'admin123'
+class Administrador(Usuario):
+    def __init__(self, nome, email, senha,acesso):
+        super().__init__(nome, email, senha)
+        self.__adm_id = uuid4
+        self.__acesso = acesso
 
     @property
-    def _nome_usuario(self):
-        return self.__nome_usuario
+    def _adm_id(self):
+        return self.__adm_id
 
-    @_nome_usuario.setter
-    def _nome_usuario(self, value):
-        self.__nome_usuario = value
+    @_adm_id.setter
+    def _adm_id(self, value):
+        self.__adm_id = value
 
     @property
-    def _senha_usuario(self):
-        return self.__senha_usuario
+    def _acesso(self):
+        return self.__acesso
 
-    @_senha_usuario.setter
-    def _senha_usuario(self, value):
-        self.__senha_usuario = value
+    @_acesso.setter
+    def _acesso(self, value):
+        self.__acesso = value
+        
+        
+    
+        
+        
+
+    
 
 
 class Cliente(Usuario):
@@ -406,6 +415,9 @@ class Entregador(Usuario):
         else:
             print('Você ainda não tem nenhum pedido')
     
+usuarios = []
+entregadores = []
+administradores = []
     
 def inicializar_entregadores_padrao():
     carlos = Entregador('Carlos Henrique','carlos_moto@gmail.com','carlos_moto123','18467529341','18997485236','moto')
@@ -413,7 +425,8 @@ def inicializar_entregadores_padrao():
     jair = Entregador('Jair Silva','jair_caminhao@gmail.com','jair_caminhao123','46751003289','18957984001','caminhão')
     entregadores.append(carlos)
     entregadores.append(larissa)
-    entregadores.append(jair)    
+    entregadores.append(jair) 
+    administradores.append(ceo_speedbox)   
 
 
 def obter_input_validado(exibir_mensagem, condicao, exibir_erro):
@@ -424,51 +437,83 @@ def obter_input_validado(exibir_mensagem, condicao, exibir_erro):
         else:
             print(exibir_erro)
 
+def verificar_email_existente(email):
+    verificar_email = []
+    for usuario in usuarios:
+            if email == usuario._email:
+                verificar_email.append(usuario._email)
+            else:
+                pass
+    for entregador in entregadores:
+            if email == entregador._email:
+                verificar_email.append(entregador._email)
+            else:
+                pass
+    for administrador in administradores:
+            if email == administrador._email:
+                verificar_email.append(administrador._email)
+            else:
+                pass
+    if email in verificar_email:
+        return False
+    else:
+        return True
+
 
 def cadastrar_usuario():
     
-    tipo = obter_input_validado('Seu cadastro será para Cliente ou Entregador?(digite 1 para Cliente e 2 para Entregador): ', lambda x: x in ['1','2'], 'Opção de usuario incorreto')                 
+    tipo = obter_input_validado('Seu cadastro será para Cliente, Entregador ou Administrador?(digite 1 para Cliente, 2 para Entregador e 3 para Administrador): ', lambda x: x in ['1','2','3'], 'Opção de usuario incorreto')                 
     nome = obter_input_validado('Digite seu nome de usuário: ', lambda x:len(x)>=3, 'Nome de usuario não pode ter menos de três caracteres\n')
-    email = obter_input_validado('Digite seu email: ', lambda x: '@' in x and x.index('@') > 0 and x.endswith(('@gmail.com','@hotmail.com','@outlook.com')), 'seu email está invalido, pois não consta o endereço de email correto ou o nome do usuario do email está incorreto\n')
+    while True:
+        email = obter_input_validado('Digite seu email: ', lambda x: '@' in x and x.index('@') > 0 and x.endswith(('@gmail.com','@hotmail.com','@outlook.com')),'seu email está invalido, pois não consta o endereço de email correto ou o nome do usuario do email está incorreto\n')
+        if verificar_email_existente(email) == True:
+            break
+        else:
+            print('Email já cadastrado, tente outro endereço de email')        
     senha = obter_input_validado('Digite sua senha(no minimo oito caracteres): ', lambda x:len(x)>=8, 'A senha deve conter pelo menos oito caracteres\n')
-    cpf = obter_input_validado('Digite seu cpf: ', lambda x:len(x) == 11, 'O cpf deve conter onze digitos\n')
-    tel = obter_input_validado('Digite seu telefone(incluir DDD e apenas os números): ', lambda x:len(x) == 11, 'O telefone deve conter apenas números e somente onze digitos\n')
+
     
     if tipo == '1':
+        cpf = obter_input_validado('Digite seu cpf: ', lambda x:len(x) == 11, 'O cpf deve conter onze digitos\n')
+        tel = obter_input_validado('Digite seu telefone(incluir DDD e apenas os números): ', lambda x:len(x) == 11, 'O telefone deve conter apenas números e somente onze digitos\n')
         novo_cliente = Cliente(nome, email, senha, cpf, tel)
         usuarios.append(novo_cliente)
         print(f"Cliente {nome} cadastrado com sucesso!")
     elif tipo == '2':
-        while True:
-            veiculo = input('Seu veiculo é um carro, moto ou caminhão: ').lower()
-            if veiculo not in ['carro','moto','caminhão']:
-                print('veiculo incorreto, tente novamente')
-            else:
-                break
+        cpf = obter_input_validado('Digite seu cpf: ', lambda x:len(x) == 11, 'O cpf deve conter onze digitos\n')
+        tel = obter_input_validado('Digite seu telefone(incluir DDD e apenas os números): ', lambda x:len(x) == 11, 'O telefone deve conter apenas números e somente onze digitos\n')
+        veiculo = obter_input_validado('Seu veiculo é um carro, moto ou caminhão:', lambda x: x in ['carro','moto','caminhão'], 'veiculo incorreto, tente novamente' )
         novo_entregador = Entregador(nome, email, senha, cpf, tel, veiculo)
         entregadores.append(novo_entregador)
         print(f"Entregador {nome} cadastrado com sucesso!")
     
+    elif tipo == '3':
+        novo_adm = Administrador(nome,email,senha,'pendente')
+        administradores.append(novo_adm)
+        print(f"Administrador {nome} aguardando validação de cadastro!")
+        
 
 def realizar_login():
     email_usuario_login = input("Digite seu email de usuário: ")
     senha_login = input("Digite sua senha: ")
 
-    if email_usuario_login == 'admin' and senha_login == 'admin123':
-        print("Login bem-sucedido como Administrador!")
-        if menu.opt_administrador():
-            return True
-        else:
-            return False
-
-    admin = Administrador()
-    if email_usuario_login == admin._nome_usuario and senha_login == admin._senha_usuario:
-        print("Login bem-sucedido como Administrador!")
-        if menu.opt_administrador(admin):
-            return True
-        else:
-            return False
-
+    for admin in administradores:
+        if email_usuario_login == admin._email and senha_login == admin._senha :
+            if admin._acesso == 'pendente':
+                print('É nescessario a validação do login para proseguir o login de administrador')
+                return False
+            elif admin._acesso == 'primario':
+                print("Login bem-sucedido como Administrador primario!")
+                if menu.opt_administrador_primario(admin):
+                    return True 
+                else:
+                    return False
+            elif admin._acesso == 'secundario':
+                print("Login bem-sucedido como Administrador secundario!")
+                if menu.opt_administrador_secundario(admin):
+                    return True
+                else:
+                    return False
     for entregador in entregadores:
         if entregador._email == email_usuario_login and entregador._senha == senha_login:
             print(f"Login bem-sucedido como Entregador, {entregador._nome}!")
@@ -486,4 +531,5 @@ def realizar_login():
                 return False 
 
     print("Falha no login. Usuário ou senha incorretos.")
-    return None
+    return False
+ceo_speedbox = Administrador('Fernando','fer.ceo@gmail.com','fer_ceo123','primario')

@@ -3,6 +3,7 @@ from datetime import datetime
 import usuario
 import random
 import empresa
+from cupom import filtrar_cupom
 
 
 TEMPOS_DE_ENTREGA = {
@@ -27,6 +28,7 @@ class Pedido:
         self.__endereco = None
         self.__avaliacao = 'pendente'
         self.__avaliacao_entregador = 'pendente'
+        
 
     
     @property
@@ -144,6 +146,9 @@ class Pedido:
         if not self._cliente._carrinho:
             print("Seu carrinho está vazio. Adicione produtos para finalizar a compra.")
             return False
+        if not usuario.entregadores:
+            print('não há nenhum motorista para realizar a entrega do pedido')
+            return False
 
         print("Itens no seu carrinho:")
         valor_total_pedido = 0.0
@@ -220,7 +225,13 @@ class Pedido:
         
         self._endereco = self._cliente._endereco
         
-        print(f"\nValor total do pedido: R$ {self._valor_total}")
+        novo_valor = filtrar_cupom(self._valor_total)
+        if novo_valor:
+            self._valor_total = novo_valor
+            print(f"\nValor total do pedido: R$ {self._valor_total}")
+        else:
+            print(f"\nValor total do pedido: R$ {self._valor_total}")
+        
         while True:
             mtd_pagamento = input('Qual metodo de pagamento você deseja:\n1 - Pix\n2 - Boleto\n3 - Crédito\n4 - Débito:\n')
             if mtd_pagamento == '1':

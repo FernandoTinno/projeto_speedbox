@@ -125,6 +125,47 @@ def listar_produtos():
     for i, prod in enumerate(produtos, 1):
         print(f"{i} - {prod._nome} (Marca: {prod._marca}, Estoque: {prod._quantidade_estoque}, Preço: R${prod._preco:.2f}, Peso: {prod._peso}kg)")
 
+def repor_estoque_produto():
+    if produtos:
+        
+        print(f'aqui está sua lista de produtos:\n')
+    
+        num = 0
+        for item in produtos:
+            num +=1
+            print(f'{num} - {item._nome} quantidade em estoque: {item._quantidade_estoque}\n')
+                
+        escolha = int(input('digite o numero do produto que vc gostaria de repor o estoque: '))
+            
+        if escolha == 0:
+            print('opcao invalida')
+            
+        elif escolha > len(produtos):
+            print('opcao invalida')
+            
+        else:
+            while True:
+                escolha_index = escolha - 1
+                try:
+                    qtd = int(input(f'Digite a quantidade de produtos que seram adicionados ao {produtos[escolha_index]._nome}(de 1 a 1000): '))
+                    if qtd <= 0:
+                        print(f'o valor {qtd} não é valido para atibuição de estoque')
+                    elif qtd > 1000:
+                        print('Essa quantidade de produtos não pode ser adicionado em um unico requerimento de reposição de estoque')
+                    else:
+                        produtos[escolha_index]._quantidade_estoque += qtd
+                        print(f'O estoque do produto {produtos[escolha_index]._nome} agora é de: {produtos[escolha_index]._quantidade_estoque} unidades')
+                        return
+                except ValueError:
+                    print('Valor que foi digitado está incorreto')
+                
+    else:
+        print('Não tem nenhum produto registrado no estoque da empresa')
+        return False
+                    
+                
+
+
 def inicializar_produtos_padrao():
     notebook_1 = Produto('notebook aspire', 'acer', 4, 2799.99, 1.5)
     micro_ondas = Produto('microondas hot wave', 'eletrolux', 2, 350.00, 10)

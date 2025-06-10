@@ -2,6 +2,7 @@ import usuario
 import produto
 
 
+
 if __name__ == "__main__":
     usuario.inicializar_entregadores_padrao()
     produto.inicializar_produtos_padrao()
@@ -16,4 +17,4 @@ if __name__ == "__main__":
             print("Saindo do programa.")
             break
         else:
-            print("Opção inválida. Tente novamente.")
+            print("Opção inválida. Tente novamente.")  

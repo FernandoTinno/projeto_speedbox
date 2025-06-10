@@ -1,6 +1,7 @@
 import endereco
 import pedido
 import produto
+import cupom
 
 def opt_cliente(cliente_logado): 
     while True:
@@ -52,9 +53,9 @@ def opt_entregador(entregador_logado):
             print("Opção inválida. Tente novamente.")
 
 
-def opt_administrador():
+def opt_administrador_primario(adm_logado):
     while True:
-        opcao = input(f"\nOpções do Administrador:\n1 - Adicionar Produto\n2 - Remover Produto\n3 - Listar Produtos\n4 - Sair\n")
+        opcao = input(f"\nOpções do Administrador {adm_logado._nome}:\n1 - Adicionar Produto\n2 - Remover Produto\n3 - Listar Produtos\n4 - Repor estoque\n5 - Aplicar cupom\n6 - Aprovar contas de administradores\n7 - Promover nivel de acesso dos administradores\n8 - Rebaixar nivel de acesso dos administradores\n9 - Sair\n")
         
         if opcao == '1':
             produto.adicionar_produto()
@@ -63,7 +64,36 @@ def opt_administrador():
         elif opcao == '3':
             produto.listar_produtos()
         elif opcao == '4':
-            print("Saindo do menu do administrador.")
+            produto.repor_estoque_produto()
+        elif opcao == '5':
+            cupom.cadastrar_cupom()
+        # elif opcao == '6':
+        #     produto.listar_produtos()#aprovar contas
+        # elif opcao == '7':
+        #     produto.listar_produtos()#promover contas
+        # elif opcao == '8':
+        #     produto.listar_produtos()#remover contas
+        elif opcao == '9':
+            print("Saindo do menu do administrador primario.")
+            return False
+        else:
+            print("Opção inválida. Tente novamente.")
+
+
+def opt_administrador_secundario(adm_logado):
+    while True:
+        opcao = input(f"\nOpções do Administrador {adm_logado._nome}:\n1 - Adicionar Produto\n2 - Remover Produto\n3 - Listar Produtos\n4 - Repor estoque\n5 - Sair\n")
+        
+        if opcao == '1':
+            produto.adicionar_produto()
+        elif opcao == '2':
+            produto.remover_produto()
+        elif opcao == '3':
+            produto.listar_produtos()
+        elif opcao == '4':
+            produto.listar_produtos()#repor estoque
+        elif opcao == '5':
+            print("Saindo do menu do administrador secundario.")
             return False
         else:
             print("Opção inválida. Tente novamente.")
