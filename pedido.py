@@ -1,6 +1,6 @@
 from uuid import uuid4
 from datetime import datetime
-import usuario
+from usuarios.entregador import entregadores
 import random
 import empresa
 from cupom import filtrar_cupom
@@ -146,7 +146,7 @@ class Pedido:
         if not self._cliente._carrinho:
             print("Seu carrinho está vazio. Adicione produtos para finalizar a compra.")
             return False
-        if not usuario.entregadores:
+        if not entregadores:
             print('não há nenhum motorista para realizar a entrega do pedido')
             return False
 
@@ -190,7 +190,7 @@ class Pedido:
         
         
         entregadores_disponíveis = []
-        for entregador in usuario.entregadores:
+        for entregador in entregadores:
             if entregador._veiculo == self._metodo_de_entrega:
                 entregadores_disponíveis.append(entregador)
         

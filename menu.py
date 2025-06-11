@@ -6,7 +6,7 @@ import cupom
 def opt_cliente(cliente_logado): 
     while True:
         opcao = input(f"\nOpções do Cliente ({cliente_logado._nome}):\n1 - Adicionar Endereço\n2 - Remover Endereço\n3 - Ver Endereço\n4 - Adicionar Produto\n5 - Remover Produto\n6 - Ver Produto\n7 - Finalizar Compra\n8 - Historico de pedidos\n9 - Avaliar Pedido\n10 - Sair\n")
-
+        
         if opcao == '1':
             endereco.Endereco.adicionar_endereco(cliente_logado)
         elif opcao == '2':
@@ -55,7 +55,9 @@ def opt_entregador(entregador_logado):
 
 def opt_administrador_primario(adm_logado):
     while True:
-        opcao = input(f"\nOpções do Administrador {adm_logado._nome}:\n1 - Adicionar Produto\n2 - Remover Produto\n3 - Listar Produtos\n4 - Repor estoque\n5 - Aplicar cupom\n6 - Aprovar contas de administradores\n7 - Promover nivel de acesso dos administradores\n8 - Rebaixar nivel de acesso dos administradores\n9 - Sair\n")
+        opcao = input(f"\nOpções do Administrador {adm_logado._nome}:\n1 - Adicionar Produto\n2 - Remover Produto\n3 - Listar Produtos\n4 - Repor estoque\n5 - Aplicar cupom\n6 - Sair\n")
+        #opcao = input(f"\nOpções do Administrador {adm_logado._nome}:\n1 - Adicionar Produto\n2 - Remover Produto\n3 - Listar Produtos\n4 - Repor estoque\n5 - Aplicar cupom\n6 - Aprovar contas de administradores\n7 - Promover nivel de acesso dos administradores\n8 - Rebaixar nivel de acesso dos administradores\n9 - Sair\n") 
+        
         
         if opcao == '1':
             produto.adicionar_produto()
@@ -67,17 +69,33 @@ def opt_administrador_primario(adm_logado):
             produto.repor_estoque_produto()
         elif opcao == '5':
             cupom.cadastrar_cupom()
-        # elif opcao == '6':
-        #     produto.listar_produtos()#aprovar contas
-        # elif opcao == '7':
-        #     produto.listar_produtos()#promover contas
-        # elif opcao == '8':
-        #     produto.listar_produtos()#remover contas
-        elif opcao == '9':
+        elif opcao == '6':
             print("Saindo do menu do administrador primario.")
             return False
         else:
             print("Opção inválida. Tente novamente.")
+        #alterações futuras 
+        # if opcao == '1':
+        #     produto.adicionar_produto()
+        # elif opcao == '2':
+        #     produto.remover_produto()
+        # elif opcao == '3':
+        #     produto.listar_produtos()
+        # elif opcao == '4':
+        #     produto.repor_estoque_produto()
+        # elif opcao == '5':
+        #     cupom.cadastrar_cupom()
+        # elif opcao == '6':
+        #     adm_logado.aprovar_contas()
+        # elif opcao == '7':
+        #     adm_logado.promover_contas_administrador()
+        # elif opcao == '8':
+        #     adm_logado.rebaixar_contas_administrador()
+        # elif opcao == '9':
+        #     print("Saindo do menu do administrador primario.")
+        #     return False
+        # else:
+        #     print("Opção inválida. Tente novamente.")
 
 
 def opt_administrador_secundario(adm_logado):
@@ -91,7 +109,7 @@ def opt_administrador_secundario(adm_logado):
         elif opcao == '3':
             produto.listar_produtos()
         elif opcao == '4':
-            produto.listar_produtos()#repor estoque
+            produto.repor_estoque_produto()
         elif opcao == '5':
             print("Saindo do menu do administrador secundario.")
             return False
