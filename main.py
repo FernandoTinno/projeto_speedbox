@@ -1,5 +1,3 @@
-# main.py
-
 from usuarios import gerenciador_usuarios
 from usuarios import entregador 
 from usuarios import adm 

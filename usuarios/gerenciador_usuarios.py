@@ -77,7 +77,7 @@ def realizar_login():
             if admin._acesso == 'pendente':
                 print('É nescessario a validação do login para proseguir.')
                 return
-            elif admin._acesso == 'primario':
+            elif admin._acesso == 'primario' or admin._acesso == 'primordial':
                 print("Login bem-sucedido como Administrador primario!")
                 menu.opt_administrador_primario(admin)
                 return
